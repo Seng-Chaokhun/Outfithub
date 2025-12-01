@@ -47,7 +47,7 @@ npm run dev
 
 Types
 | Type | Description |
-|---------------|---------------------------------------------------|
+|------|-------------|
 | `feat` | new feature |
 | `fix` | bug fix |
 | `refactor` | code restructure, no behavior change |
