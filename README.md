@@ -1,54 +1,92 @@
-# outfithub
+# Outfit Hub
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is brought to you by **I4 GIC C Team 2**.
 
-## Recommended IDE Setup
+An E-commerce platform for selling and buying outfits for all genders and ages.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Team Members
 
-## Recommended Browser Setup
+| Name          | ID        | Roles           |
+| ------------- | --------- | --------------- |
+| Seng Chaokhun | e20220478 | Project Manager |
+| Thou Laiheng  | e20220843 | QA Tester       |
+| Ang Panha     | e20221707 | Code Reviewer   |
+| Kham Veasna   | e20210796 | QA Tester       |
+| Cheng Sakda   | e20220190 | Reporter        |
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Getting Started
 
-## Type Support for `.vue` Imports in TS
+1. Clone the repository:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```bash
+git clone https://github.com/Seng-Chaokhun/Outfithub.git
+cd Outfithub
+```
 
-## Customize configuration
+2. Install dependencies:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+3. Run the project:
 
-```sh
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Contributor Notes
 
-```sh
-npm run build
+### Conventions
+
+1. Commit Message:
+
+```
+<type>(scope): description
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Types
+| Type | Description |
+|---------------|---------------------------------------------------|
+| `feat` | new feature |
+| `fix` | bug fix |
+| `refactor` | code restructure, no behavior change |
+| `style` | code formatting. note: use `feat` for css styling |
+| `docs` | documentation |
+| `test` | adding and modifying tests |
+| `chore` | maintenance — deps, configs, tooling, CI |
 
-```sh
-npm run test:unit
+example:
+
+```
+feat(auth): add refresh token handler
+fix(api): handle null project IDs
+refactor(ui): streamline modal component
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+2. Merge Message:
 
-```sh
-npm run lint
+```
+<scope>: <summary>
+<optional bullets>
+<optional breaking/migration notes>
+```
+
+example:
+
+```
+projects: implement full board CRUD and permissions
+```
+
+```
+auth: integrate OAuth2 login and unify session flow
+- added access/refresh model
+- updated middleware
+```
+
+```
+core: restructure modules
+- moved domain logic to /modules
+- removed v1 API
+BREAKING: old endpoints removed
 ```
