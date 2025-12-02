@@ -1,12 +1,9 @@
 <template>
-  <div class="login-page">
+  <div class="sign">
     <h1>Login</h1>
   </div>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
-<style scoped>
-.login-page { text-align: center; padding: 50px; }
-</style>
+<style scoped></style>

@@ -1,12 +1,9 @@
 <template>
-  <div class="search-page">
+  <div class="sign">
     <h1>Search Page</h1>
   </div>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
-<style scoped>
-.search-page { text-align: center; padding: 50px; }
-</style>
+<style scoped></style>
