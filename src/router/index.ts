@@ -1,26 +1,26 @@
 // src/router/index.ts
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
 // Admin pages
-const DashboardPage = () => import('@/pages/admin/DashboardPage.vue');
-const NotificationPage = () => import('@/pages/admin/NotificationPage.vue');
-const ProductManagement = () => import('@/pages/admin/ProductManagement.vue');
-const StockManagement = () => import('@/pages/admin/StockManagement.vue');
+const DashboardPage = () => import('@/pages/admin/DashboardPage.vue')
+const NotificationPage = () => import('@/pages/admin/NotificationPage.vue')
+const ProductManagement = () => import('@/pages/admin/ProductManagement.vue')
+const StockManagement = () => import('@/pages/admin/StockManagement.vue')
 
 // Auth pages
-const LoginPage = () => import('@/pages/auth/LoginPage.vue');
-const RegisterPage = () => import('@/pages/auth/RegisterPage.vue');
-const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue');
+const LoginPage = () => import('@/pages/auth/LoginPage.vue')
+const RegisterPage = () => import('@/pages/auth/RegisterPage.vue')
+const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue')
 
 // User pages
-const HomePage = () => import('@/pages/user/HomePage.vue');
-const MensCollection = () => import('@/pages/user/MensCollection.vue');
-const WomensCollection = () => import('@/pages/user/WomensCollection.vue');
-const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue');
-const SearchPage = () => import('@/pages/user/SearchPage.vue');
+const HomePage = () => import('@/pages/user/HomePage.vue')
+const MensCollection = () => import('@/pages/user/MensCollection.vue')
+const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
+const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
+const SearchPage = () => import('@/pages/user/SearchPage.vue')
 
 // Landing page
-const LandingPage = () => import('@/pages/LandingPage.vue');
+const LandingPage = () => import('@/pages/LandingPage.vue')
 
 const routes = [
   // Landing page
@@ -28,18 +28,7 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: LandingPage,
-  },
-
-  // Auth routes
-  {
-    path: '/auth/login',
-    name: 'Login',
-    component: LoginPage,
-  },
-  {
-    path: '/auth/register',
-    name: 'Register',
-    component: RegisterPage,
+    meta: { nav: true },
   },
   {
     path: '/auth/forgot-password',
@@ -52,16 +41,19 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: HomePage,
+    meta: { nav: true },
   },
   {
     path: '/collection/mens',
-    name: 'MensCollection',
+    name: "Men's Collection",
     component: MensCollection,
+    meta: { nav: true },
   },
   {
     path: '/collection/womens',
-    name: 'WomensCollection',
+    name: "Women's Collection",
     component: WomensCollection,
+    meta: { nav: true },
   },
   {
     path: '/product/:id',
@@ -73,6 +65,21 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: SearchPage,
+    meta: { nav: true },
+  },
+
+  // Auth routes
+  {
+    path: '/auth/login',
+    name: 'Login',
+    component: LoginPage,
+    meta: { nav: true },
+  },
+  {
+    path: '/auth/register',
+    name: 'Register',
+    component: RegisterPage,
+    meta: { nav: true },
   },
 
   // Admin routes
@@ -80,6 +87,7 @@ const routes = [
     path: '/admin/dashboard',
     name: 'Dashboard',
     component: DashboardPage,
+    meta: { nav: true },
   },
   {
     path: '/admin/notifications',
@@ -96,11 +104,11 @@ const routes = [
     name: 'StockManagement',
     component: StockManagement,
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
-export default router;
+export default router

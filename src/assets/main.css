@@ -1,1 +1,6 @@
 @import 'tailwindcss';
+
+.sign {
+  text-align: center;
+  padding: 50px;
+}
