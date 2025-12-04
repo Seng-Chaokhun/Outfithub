@@ -1,8 +1,11 @@
 <template>
   <header class="bg-gray-100 border-b border-gray-300 px-6 py-4">
     <nav class="flex items-center justify-between">
-      <div class="text-xl font-bold text-green-600">Outfithub</div>
-      <ul class="flex space-x-4">
+      <router-link :to="'/'" class="text-xl font-bold text-green-600">Outfithub</router-link>
+      <ul class="flex items-center space-x-4">
+        <li>
+          <SearchBar />
+        </li>
         <li v-for="link in navLinks" :key="link.name">
           <router-link
             :to="link.path"
@@ -19,6 +22,7 @@
 
 <script setup lang="ts">
 import router from '@/router/index.ts'
+import SearchBar from '../user/SearchBar.vue'
 const navLinks = router.options.routes.filter((r) => r.meta?.nav)
 </script>
 

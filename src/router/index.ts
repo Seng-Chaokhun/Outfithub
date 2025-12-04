@@ -28,7 +28,6 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: LandingPage,
-    meta: { nav: true },
   },
   {
     path: '/auth/forgot-password',
@@ -65,7 +64,6 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: SearchPage,
-    meta: { nav: true },
   },
 
   // Auth routes
