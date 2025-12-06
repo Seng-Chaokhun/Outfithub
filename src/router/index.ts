@@ -19,7 +19,6 @@ const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
 const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
 const SearchPage = () => import('@/pages/user/SearchPage.vue')
 
-// Landing page
 const LandingPage = () => import('@/pages/LandingPage.vue')
 
 const routes = [
