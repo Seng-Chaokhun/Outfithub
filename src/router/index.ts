@@ -13,13 +13,17 @@ const RegisterPage = () => import('@/pages/auth/RegisterPage.vue')
 const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue')
 
 // User pages
-const HomePage = () => import('@/pages/user/HomePage.vue')
 const MensCollection = () => import('@/pages/user/MensCollection.vue')
 const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
 const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
 const SearchPage = () => import('@/pages/user/SearchPage.vue')
+const AccountPage = () => import('@/pages/user/AccountPage.vue')
 
+// Landing page
 const LandingPage = () => import('@/pages/LandingPage.vue')
+
+// Other pages
+const ErrorPage = () => import('@/pages/other/ErrorPage.vue')
 
 const routes = [
   // Landing page
@@ -28,19 +32,8 @@ const routes = [
     name: 'Landing',
     component: LandingPage,
   },
-  {
-    path: '/auth/forgot-password',
-    name: 'ForgotPassword',
-    component: ForgotPasswordPage,
-  },
 
   // User routes
-  {
-    path: '/home',
-    name: 'Home',
-    component: HomePage,
-    meta: { nav: true },
-  },
   {
     path: '/collection/mens',
     name: "Men's Collection",
@@ -64,6 +57,12 @@ const routes = [
     name: 'Search',
     component: SearchPage,
   },
+  {
+    path: '/account/:id',
+    name: 'Account',
+    component: AccountPage,
+    props: true,
+  },
 
   // Auth routes
   {
@@ -77,6 +76,11 @@ const routes = [
     name: 'Register',
     component: RegisterPage,
     meta: { nav: true },
+  },
+  {
+    path: '/auth/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPasswordPage,
   },
 
   // Admin routes
@@ -100,6 +104,14 @@ const routes = [
     path: '/admin/stock',
     name: 'StockManagement',
     component: StockManagement,
+  },
+
+  // Other pages
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'Error',
+    component: ErrorPage,
+    props: { code: 404, title: 'Oops!', message: 'This page could not be found.' },
   },
 ]
 
