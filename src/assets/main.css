@@ -1,6 +1,12 @@
 @import 'tailwindcss';
 
-.sign {
+/* .sign {
   text-align: center;
   padding: 50px;
+} */
+
+@layer components {
+  .content-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12;
+  }
 }
