@@ -5,23 +5,29 @@
 
     <!-- Hero Section - NEW ARRIVAL -->
     <section class="relative bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="content-container">
         <div class="grid md:grid-cols-2 gap-8 items-center">
           <!-- Left - Image -->
-          <div class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group">
+          <div
+            class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group"
+          >
             <img
               src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
               alt="New Arrival Fashion"
               class="w-full h-full object-cover"
             />
-            <div class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"
+            />
             <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
               NEW<br />ARRIVAL
             </div>
           </div>
 
           <!-- Right - Fashion Banner -->
-          <div class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group">
+          <div
+            class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group"
+          >
             <img
               src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
               alt="Fashion Collection"
@@ -33,13 +39,13 @@
                 <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
                 <h2 class="text-5xl font-bold">FASHION</h2>
                 <div class="pt-4">
-                  <span class="inline-block bg-white text-gray-900 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors">
+                  <span
+                    class="inline-block bg-white text-gray-900 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
+                  >
                     DISCOUNT PRICE UP TO 50%
                   </span>
                 </div>
-                <div class="pt-2 text-xs">
-                  WWW.OUTFITHUB.COM
-                </div>
+                <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
               </div>
             </div>
           </div>
@@ -58,16 +64,17 @@
               alt="Men's Fashion Collection"
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
           </div>
 
           <!-- Text Content -->
           <div class="space-y-4">
-            <h3 class="text-3xl font-bold text-gray-900">
-              Various types<br />men's outfit
-            </h3>
+            <h3 class="text-3xl font-bold text-gray-900">Various types<br />men's outfit</h3>
             <p class="text-gray-600">
-              Discover our curated collection of men's fashion. From casual streetwear to formal attire, find your perfect style.
+              Discover our curated collection of men's fashion. From casual streetwear to formal
+              attire, find your perfect style.
             </p>
             <button
               @click="navigateToMen"
@@ -75,7 +82,12 @@
             >
               <span>Shop men</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -89,11 +101,10 @@
         <div class="grid md:grid-cols-2 gap-8 items-center">
           <!-- Text Content -->
           <div class="space-y-4 order-2 md:order-1">
-            <h3 class="text-3xl font-bold text-gray-900">
-              Various types<br />women's outfit
-            </h3>
+            <h3 class="text-3xl font-bold text-gray-900">Various types<br />women's outfit</h3>
             <p class="text-gray-600">
-              Explore elegant and trendy women's fashion. From chic dresses to comfortable everyday wear, express your unique style.
+              Explore elegant and trendy women's fashion. From chic dresses to comfortable everyday
+              wear, express your unique style.
             </p>
             <button
               @click="navigateToWomen"
@@ -101,7 +112,12 @@
             >
               <span>Shop women</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -113,7 +129,9 @@
               alt="Women's Fashion Collection"
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
           </div>
         </div>
       </div>
@@ -146,6 +164,4 @@ const navigateToWomen = () => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
