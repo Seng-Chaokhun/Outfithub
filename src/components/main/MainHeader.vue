@@ -9,7 +9,7 @@
             class="text-gray-700 hover:text-gray-900 transition-colors"
             aria-label="Toggle menu"
           >
-            <div class="text-green-500 font-bold">Outfithub</div>
+            <router-link to="/" class="text-green-500 font-bold text-2xl">Outfithub</router-link>
           </button>
         </div>
 
