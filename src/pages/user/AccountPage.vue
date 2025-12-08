@@ -118,7 +118,6 @@
         </transition>
       </main>
     </div>
-    <MainFooter />
   </div>
 </template>
 
@@ -135,7 +134,6 @@ import ToggleRow from '@/components/account/ToggleRow.vue'
 
 // common component imports
 import MainHeader from '@/components/main/MainHeader.vue'
-import MainFooter from '@/components/main/MainFooter.vue'
 
 // interface imports
 import type Profile from '@/interfaces/Profile'
