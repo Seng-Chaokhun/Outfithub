@@ -48,7 +48,7 @@ const routes = [
   },
   {
     path: '/product/:id',
-    name: 'ProductDetail',
+    name: 'Product Detail',
     component: ProductDetailPage,
     props: true,
   },
@@ -112,12 +112,20 @@ const routes = [
     name: 'Error',
     component: ErrorPage,
     props: { code: 404, title: 'Oops!', message: 'This page could not be found.' },
+    meta: {
+      title: 'Error - 404',
+    },
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+// title feature
+router.afterEach((to) => {
+  document.title = (to.meta.title as string) ?? (to.name as string) + ' | Outfithub'
 })
 
 export default router
