@@ -1,9 +1,160 @@
 <template>
-  <div class="sign">
-    <h1>Women's Collection</h1>
+  <div class="content-container">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <CategoryFilter @update:filters="onFiltersUpdate" />
+        <div ref="sortRef" class="relative">
+          <button
+            @click="sortOpen = !sortOpen"
+            class="flex items-center gap-2 border rounded-full px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+          >
+            SORT BY
+            <ChevronDown class="w-4 h-4" />
+          </button>
+          <div v-if="sortOpen" class="absolute z-10 mt-2 w-44 bg-white border rounded-md shadow">
+            <button class="w-full text-left text-sm px-3 py-2 hover:bg-gray-50" @click="changeSort('price-asc')">
+              Price: Low to High
+            </button>
+            <button class="w-full text-left text-sm px-3 py-2 hover:bg-gray-50" @click="changeSort('price-desc')">
+              Price: High to Low
+            </button>
+            <button class="w-full text-left text-sm px-3 py-2 hover:bg-gray-50" @click="changeSort('name')">Name A-Z</button>
+          </div>
+        </div>
+      </div>
+
+      <SearchBar />
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <ProductCard v-for="p in displayProducts" :key="p.id" :product="p" />
+    </div>
+
+    <div class="mt-12 border-t pt-6 flex items-center gap-6">
+      <Facebook class="w-6 h-6" />
+      <Instagram class="w-6 h-6" />
+      <Twitter class="w-6 h-6" />
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ChevronDown, Facebook, Instagram, Twitter } from 'lucide-vue-next'
+import SearchBar from '@/components/user/SearchBar.vue'
+import ProductCard from '@/components/user/ProductCard.vue'
+import CategoryFilter from '@/components/user/CategoryFilter.vue'
+
+type Product = {
+  id: number
+  name: string
+  price: number
+  imageUrl: string
+  soldOut?: boolean
+  color: 'light-blue' | 'black' | 'charcoal'
+}
+
+const sortOpen = ref(false)
+const sortBy = ref<'price-asc' | 'price-desc' | 'name'>('name')
+const sortRef = ref<HTMLElement | null>(null)
+
+function handleClickOutside(event: MouseEvent) {
+  if (sortRef.value && !sortRef.value.contains(event.target as Node)) {
+    sortOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
+// Load local images for women from src/assets/images/women (empty is fine if none yet)
+const imageModules = import.meta.glob('../../assets/images/men/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+const allProducts = computed<Product[]>(() => {
+  const entries = Object.entries(imageModules)
+  return entries.map(([path, url], idx) => {
+    const file = path.split('/').pop()!.toLowerCase()
+    const isLight = file.includes('light') || file.includes('blue')
+    const isCharcoal = file.includes('charcoal')
+    const color: 'light-blue' | 'black' | 'charcoal' = isCharcoal ? 'charcoal' : isLight ? 'light-blue' : 'black'
+    const soldOut = file.includes('sold') || file.includes('soldout')
+
+    const name =
+      color === 'light-blue'
+        ? 'LV WOMEN SLIM FIT LIGHT BLUE JEANS'
+        : color === 'black'
+          ? 'LV WOMEN SLIM FIT BLACK JEANS'
+          : 'LV WOMEN SLIM FIT CHARCOAL JEANS'
+
+    // Derive price: use number in filename if present, else base by color with small variation
+    const priceFromNameMatch = file.match(/(\d+(?:\.\d+)?)/)
+    const base = color === 'light-blue' ? 25.05 : color === 'black' ? 21.05 : 24.09
+    const variation = (idx % 4) * 0.5 // 0, 0.5, 1.0, 1.5
+    const matchedNumber = priceFromNameMatch && priceFromNameMatch[1] ? priceFromNameMatch[1] : null
+    const price = matchedNumber ? parseFloat(matchedNumber) : Number((base + variation).toFixed(2))
+
+    return { id: idx + 1, name, price, imageUrl: url, color, soldOut }
+  })
+})
+
+type Filters = {
+  sizes: Record<string, boolean>
+  productTypes: Record<string, boolean>
+  priceMax: number
+  availability: 'all' | 'inStock' | 'outOfStock'
+}
+
+const activeFilters = ref<Filters>({
+  sizes: {},
+  productTypes: {},
+  priceMax: 369,
+  availability: 'all'
+})
+
+function onFiltersUpdate(f: Filters) {
+  activeFilters.value = f
+}
+
+function changeSort(mode: 'price-asc' | 'price-desc' | 'name') {
+  sortBy.value = mode
+  sortOpen.value = false
+}
+
+const displayProducts = computed(() => {
+  let items = [...allProducts.value]
+  
+  // Filter by price
+  items = items.filter(p => p.price <= activeFilters.value.priceMax)
+  
+  // Filter by availability
+  if (activeFilters.value.availability === 'inStock') {
+    items = items.filter(p => !p.soldOut)
+  } else if (activeFilters.value.availability === 'outOfStock') {
+    items = items.filter(p => p.soldOut)
+  }
+  
+  // Filter by product type (if any selected)
+  const selectedTypes = Object.entries(activeFilters.value.productTypes)
+    .filter(([, selected]) => selected)
+    .map(([type]) => type.toLowerCase())
+  if (selectedTypes.length > 0) {
+    items = items.filter(p => selectedTypes.some(t => p.name.toLowerCase().includes(t)))
+  }
+
+  if (sortBy.value === 'price-asc') items.sort((a, b) => a.price - b.price)
+  else if (sortBy.value === 'price-desc') items.sort((a, b) => b.price - a.price)
+  else items.sort((a, b) => a.name.localeCompare(b.name))
+
+  return items
+})
+</script>
 
 <style scoped></style>
