@@ -5,5 +5,5 @@ export interface UserSession {
   name: string
   email: string
   tokens: AuthTokens
-  expireAt: number
+  expiresAt: number
 }
