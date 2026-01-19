@@ -1,5 +1,5 @@
 <template>
-	<div class="space-y-3 group cursor-pointer">
+	<div class="space-y-3 group cursor-pointer" @click="viewDetails">
 		<div class="relative overflow-hidden rounded-md bg-gray-100">
 			<img
 				:src="product.imageUrl"
@@ -25,13 +25,22 @@
 
 		<div class="space-y-1">
 			<h3 class="text-sm font-semibold text-gray-800">{{ product.name }}</h3>
-			<p class="text-sm text-gray-700">{{ displayPrice }}</p>
+			<div class="flex items-center justify-between">
+				<p class="text-sm text-gray-700">{{ displayPrice }}</p>
+				<button 
+					@click.stop="viewDetails"
+					class="text-xs text-gray-600 hover:text-gray-900 underline transition-colors"
+				>
+					View Details →
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cartStore'
 
 interface Product {
@@ -45,6 +54,7 @@ interface Product {
 
 const props = defineProps<{ product: Product }>()
 const cartStore = useCartStore()
+const router = useRouter()
 
 const displayPrice = computed(() => `${props.product.price.toFixed(2)}$`)
 
@@ -63,6 +73,10 @@ function handleAddToCart() {
 
 	// Optional: show a brief success message
 	alert(`${props.product.name} added to cart!`)
+}
+
+function viewDetails() {
+	router.push(`/product/${props.product.id}`)
 }
 </script>
 
