@@ -3,51 +3,120 @@
     <!-- Header -->
     <MainHeader />
 
-    <!-- Hero Section - NEW ARRIVAL -->
-    <section class="relative bg-white">
+    <!-- Hero Section - Auto-Swapping Carousel -->
+    <section class="relative bg-white py-8">
       <div class="content-container">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <!-- Left - Image -->
-          <div
-            class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group"
+        <div class="relative h-[500px] overflow-hidden">
+          <!-- Continuous Carousel Container -->
+          <div 
+            class="flex transition-transform duration-700 ease-in-out"
+            :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
           >
-            <img
-              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
-              alt="New Arrival Fashion"
-              class="w-full h-full object-cover"
-            />
-            <div
-              class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"
-            />
-            <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
-              NEW<br />ARRIVAL
+            <!-- Slide 1 - NEW ARRIVAL & FASHION -->
+            <div class="min-w-full flex-shrink-0 grid md:grid-cols-12 gap-6 items-center">
+              <!-- Left - Image (Larger) -->
+              <div
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-8"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
+                  alt="New Arrival Fashion"
+                  class="w-full h-full object-cover"
+                />
+                <div
+                  class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"
+                />
+                <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
+                  NEW<br />ARRIVAL
+                </div>
+              </div>
+
+              <!-- Right - Fashion Banner (Smaller with left space) -->
+              <div
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-4"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
+                  alt="Fashion Collection"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-linear-to-br from-gray-900/80 to-gray-900/60" />
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
+                  <div class="space-y-3 text-center">
+                    <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
+                    <h2 class="text-4xl font-bold">FASHION</h2>
+                    <div class="pt-3">
+                      <span
+                        class="inline-block bg-white text-gray-900 px-5 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
+                      >
+                        DISCOUNT UP TO 50%
+                      </span>
+                    </div>
+                    <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 - FASHION & NEW ARRIVAL (Swapped positions) -->
+            <div class="min-w-full flex-shrink-0 grid md:grid-cols-12 gap-6 items-center">
+              <!-- Left - Fashion Banner (Larger) -->
+              <div
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-8"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
+                  alt="Fashion Collection"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-linear-to-br from-gray-900/80 to-gray-900/60" />
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+                  <div class="space-y-4 text-center">
+                    <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
+                    <h2 class="text-5xl font-bold">FASHION</h2>
+                    <div class="pt-4">
+                      <span
+                        class="inline-block bg-white text-gray-900 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
+                      >
+                        DISCOUNT PRICE UP TO 50%
+                      </span>
+                    </div>
+                    <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right - Image (Smaller with left space) -->
+              <div
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-4"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
+                  alt="New Arrival Fashion"
+                  class="w-full h-full object-cover"
+                />
+                <div
+                  class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"
+                />
+                <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
+                  NEW<br />ARRIVAL
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Right - Fashion Banner -->
-          <div
-            class="relative h-96 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
-              alt="Fashion Collection"
-              class="w-full h-full object-cover"
+          <!-- Navigation Dots -->
+          <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            <button
+              v-for="index in 2"
+              :key="index"
+              @click="goToSlide(index - 1)"
+              :class="[
+                'w-3 h-3 rounded-full transition-all duration-300',
+                currentSlide === index - 1 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+              ]"
+              :aria-label="`Go to slide ${index}`"
             />
-            <div class="absolute inset-0 bg-linear-to-br from-gray-900/80 to-gray-900/60" />
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
-              <div class="space-y-4 text-center">
-                <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
-                <h2 class="text-5xl font-bold">FASHION</h2>
-                <div class="pt-4">
-                  <span
-                    class="inline-block bg-white text-gray-900 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
-                  >
-                    DISCOUNT PRICE UP TO 50%
-                  </span>
-                </div>
-                <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -78,7 +147,7 @@
             </p>
             <button
               @click="navigateToMen"
-              class="bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors inline-flex items-center space-x-2"
+              class="bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors inline-flex items-center space-x-2 cursor-pointer"
             >
               <span>Shop men</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +177,7 @@
             </p>
             <button
               @click="navigateToWomen"
-              class="bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors inline-flex items-center space-x-2"
+              class="bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors inline-flex items-center space-x-2 cursor-pointer"
             >
               <span>Shop women</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,6 +217,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import MainHeader from '@/components/main/MainHeader.vue'
 import MainFooter from '@/components/main/MainFooter.vue'
@@ -155,13 +225,50 @@ import FeaturedCollections from '@/components/landing/FeaturedCollections.vue'
 
 const router = useRouter()
 
+// Carousel state
+const currentSlide = ref(0)
+let intervalId: number | null = null
+
+// Auto-rotate slides every 5 seconds
+const startAutoRotate = () => {
+  intervalId = window.setInterval(() => {
+    currentSlide.value = (currentSlide.value + 1) % 2
+  }, 5000)
+}
+
+// Stop auto-rotation
+const stopAutoRotate = () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+}
+
+// Manual navigation
+const goToSlide = (index: number) => {
+  currentSlide.value = index
+  stopAutoRotate()
+  startAutoRotate() // Restart auto-rotation after manual navigation
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  startAutoRotate()
+})
+
+onUnmounted(() => {
+  stopAutoRotate()
+})
+
 const navigateToMen = () => {
-  router.push('/men')
+  router.push('/collection/mens')
 }
 
 const navigateToWomen = () => {
-  router.push('/women')
+  router.push('/collection/womens')
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Smooth continuous carousel - no refresh effect */
+</style>
