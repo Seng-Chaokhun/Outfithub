@@ -1,9 +1,6 @@
-import type { AuthTokens } from './auth.domain'
-
-export interface UserSession {
+export interface Session {
   userId: string
-  name: string
-  email: string
-  tokens: AuthTokens
-  expiresAt: number
+  accessToken: string
+  refreshToken: string
+  expiresAt?: number
 }
