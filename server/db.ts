@@ -42,12 +42,8 @@ export async function ensureSchema() {
   await pool.query(sql)
 
   // ensure new columns exist for existing tables
-  await pool.query(
-    'ALTER TABLE users ADD COLUMN IF NOT EXISTS full_name VARCHAR(255) NULL AFTER email',
-  )
-  await pool.query(
-    'ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url TEXT NULL AFTER full_name',
-  )
+  // await pool.query('ALTER TABLE users ADD COLUMN full_name VARCHAR(255) NULL AFTER email')
+  // await pool.query('ALTER TABLE users ADD COLUMN avatar_url TEXT NULL AFTER full_name')
 }
 
 export default { pool, ensureSchema }

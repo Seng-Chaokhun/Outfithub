@@ -10,8 +10,12 @@
             aria-label="Toggle menu"
           >
             <router-link to="/" class="flex items-center gap-2">
-              <img src="@/assets/images/logo/ChatGPT_Image_Nov_9__2025__03_22_40_PM-removebg-preview.png
-              " alt="Outfithub Logo" class="h-10 w-10 object-contain" />
+              <img
+                src="@/assets/images/logo/ChatGPT_Image_Nov_9__2025__03_22_40_PM-removebg-preview.png
+              "
+                alt="Outfithub Logo"
+                class="h-10 w-10 object-contain"
+              />
               <span class="text-black-500 font-bold text-2xl">Outfithub</span>
             </router-link>
           </button>
@@ -153,11 +157,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/feature/auth/store'
 import { useCartStore } from '@/stores/cartStore'
 import CartSidebar from './CartSidebar.vue'
 import SmartSearch from './SmartSearch.vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const cartStore = useCartStore()
 
 const showSearch = ref(false)
@@ -187,7 +193,11 @@ const toggleCart = () => {
 }
 
 const handleUserClick = () => {
-  router.push({ name: 'Account', params: { id: 123 } })
+  if (authStore.isAuthenticated && authStore.session?.userId) {
+    router.push({ name: 'Account', params: { id: authStore.session.userId } })
+  } else {
+    router.push('/login')
+  }
 }
 </script>
 
