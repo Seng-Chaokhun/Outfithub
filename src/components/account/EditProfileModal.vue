@@ -9,7 +9,8 @@
           <input
             v-model="local.name"
             type="text"
-            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none"
+            :disabled="isSaving"
+            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none disabled:opacity-50"
           />
         </div>
 
@@ -18,7 +19,8 @@
           <input
             v-model="local.email"
             type="email"
-            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none"
+            :disabled="isSaving"
+            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none disabled:opacity-50"
           />
         </div>
 
@@ -27,24 +29,34 @@
           <input
             v-model="local.username"
             type="text"
-            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none"
+            :disabled="isSaving"
+            class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none disabled:opacity-50"
           />
         </div>
+      </div>
+
+      <div
+        v-if="message"
+        :class="['text-sm font-medium', isSuccess ? 'text-green-600' : 'text-red-600']"
+      >
+        {{ message }}
       </div>
 
       <div class="flex justify-end gap-3 pt-4">
         <button
           @click="$emit('close')"
-          class="px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 cursor-pointer"
+          :disabled="isSaving"
+          class="px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 cursor-pointer disabled:opacity-50"
         >
           Cancel
         </button>
 
         <button
           @click="save"
-          class="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+          :disabled="isSaving"
+          class="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 cursor-pointer disabled:opacity-50"
         >
-          Save Changes
+          {{ isSaving ? 'Saving...' : 'Save Changes' }}
         </button>
       </div>
     </div>
@@ -52,19 +64,69 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
+import type * as I from '@/../shared/interfaces'
 
 const props = defineProps<{
-  profile: { name: string; email: string; username: string }
+  profile: Partial<Pick<I.Profile, 'name' | 'email' | 'username'>>
 }>()
 
-const emit = defineEmits(['close', 'save'])
+const emit = defineEmits<{
+  close: []
+  save: [data: Partial<Pick<I.Profile, 'name' | 'email' | 'username'>>]
+}>()
 
-const local = reactive({ ...props.profile })
+const local = ref<Partial<Pick<I.Profile, 'name' | 'email' | 'username'>>>({
+  name: props.profile.name || '',
+  email: props.profile.email || '',
+  username: props.profile.username || '',
+})
 
-const save = () => {
-  emit('save', local)
+const isSaving = ref(false)
+const message = ref('')
+const isSuccess = ref(false)
+
+watch(
+  () => props.profile,
+  (newProfile) => {
+    local.value = {
+      name: newProfile.name || '',
+      email: newProfile.email || '',
+      username: newProfile.username || '',
+    }
+  },
+)
+
+const save = async () => {
+  isSaving.value = true
+  message.value = ''
+  try {
+    emit('save', local.value)
+    // Wait a bit to see the response from parent
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  } catch (error) {
+    console.error('Save error:', error)
+    message.value = 'Failed to save profile'
+    isSuccess.value = false
+    isSaving.value = false
+  }
 }
+
+const showSuccess = () => {
+  message.value = 'Profile saved successfully!'
+  isSuccess.value = true
+  setTimeout(() => {
+    emit('close')
+  }, 1500)
+}
+
+const setError = (err: string) => {
+  message.value = err
+  isSuccess.value = false
+  isSaving.value = false
+}
+
+defineExpose({ showSuccess, setError })
 </script>
 
 <style scoped>

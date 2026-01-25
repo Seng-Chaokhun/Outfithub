@@ -6,10 +6,3 @@ export interface Profile {
   avatar?: string
   joined?: string
 }
-
-export interface ProfileUpdateForm {
-  name?: string
-  email?: string
-  username?: string
-  avatar?: string
-}
