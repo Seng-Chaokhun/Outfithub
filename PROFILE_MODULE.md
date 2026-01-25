@@ -5,11 +5,13 @@ This document summarizes the migration of profile functionality from a monolithi
 ## Architecture Changes
 
 ### Before
+
 - Profile data loosely coupled in `src/pages/user/AccountPage.vue`
 - Mock fetches with hardcoded logic
 - No backend integration
 
 ### After
+
 - Feature module: `src/feature/profile/`
   - `services.ts` - API calls to backend
   - `store.ts` - Pinia store for state management
@@ -21,15 +23,18 @@ This document summarizes the migration of profile functionality from a monolithi
 ## Database Schema Changes
 
 Added columns to `users` table:
+
 - `full_name VARCHAR(255)` - User's full name
 - `avatar_url TEXT` - Avatar image URL
 
 ## API Endpoints
 
 ### GET /api/profile/:id
+
 Fetch a user's profile.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -46,9 +51,11 @@ Fetch a user's profile.
 ```
 
 ### PUT /api/profile/:id
+
 Update a user's profile.
 
 **Request Body:**
+
 ```json
 {
   "name": "Jane Doe",
@@ -63,6 +70,7 @@ Update a user's profile.
 ## Registration Form Updates
 
 The registration form now includes:
+
 - `name` - Full name (new)
 - `username` - Username
 - `email` - Email
@@ -111,5 +119,6 @@ const { loading, error } = store
 Location: `server/profile.services.ts`
 
 Functions:
+
 - `getProfile(id)` - Fetch user profile
 - `updateProfile(id, data)` - Update profile, validates uniqueness of username/email
