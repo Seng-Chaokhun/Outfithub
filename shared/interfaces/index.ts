@@ -1,5 +1,6 @@
 export type { Session } from './domain/session.domain'
 export type { User } from './domain/user.domain'
+export type { Profile, ProfileUpdateForm } from './domain/profile.domain'
 export type { ApiResponse } from './domain/response.domain'
 export type { ApiRequest } from './domain/request.domain'
 export type { ChangePasswordForm } from './form/change-password.form'
