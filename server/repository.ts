@@ -36,7 +36,14 @@ export async function isEmailTakenByOther(email, id) {
   return !!(rows as any[]).length
 }
 
-export async function createUser({ username, email, passwordHash, role = 'user', fullName, avatar }) {
+export async function createUser({
+  username,
+  email,
+  passwordHash,
+  role = 'user',
+  fullName,
+  avatar,
+}) {
   const [result] = await pool.query(
     'INSERT INTO users (username, email, full_name, avatar_url, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)',
     [username, email, fullName ?? username, avatar ?? null, passwordHash, role],
