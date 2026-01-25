@@ -1,5 +1,7 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
+import { authRoutes } from '@/feature/auth/routes'
+import { profileRoutes } from '@/feature/profile/routes'
 
 // Admin pages
 const DashboardPage = () => import('@/pages/admin/DashboardPage.vue')
@@ -8,16 +10,15 @@ const ProductManagement = () => import('@/pages/admin/ProductManagement.vue')
 const StockManagement = () => import('@/pages/admin/StockManagement.vue')
 
 // Auth pages
-const LoginPage = () => import('@/pages/auth/LoginPage.vue')
-const RegisterPage = () => import('@/pages/auth/RegisterPage.vue')
-const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue')
+// const LoginPage = () => import('@/pages/auth/LoginPage.vue')
+// const RegisterPage = () => import('@/pages/auth/RegisterPage.vue')
+// const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue')
 
 // User pages
 const MensCollection = () => import('@/pages/user/MensCollection.vue')
 const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
 const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
 const SearchPage = () => import('@/pages/user/SearchPage.vue')
-const AccountPage = () => import('@/pages/user/AccountPage.vue')
 
 // Landing page
 const LandingPage = () => import('@/pages/LandingPage.vue')
@@ -57,31 +58,24 @@ const routes = [
     name: 'Search',
     component: SearchPage,
   },
-  {
-    path: '/account/:id',
-    name: 'Account',
-    component: AccountPage,
-    props: true,
-  },
-
   // Auth routes
-  {
-    path: '/auth/login',
-    name: 'Login',
-    component: LoginPage,
-    meta: { nav: true },
-  },
-  {
-    path: '/auth/register',
-    name: 'Register',
-    component: RegisterPage,
-    meta: { nav: true },
-  },
-  {
-    path: '/auth/forgot-password',
-    name: 'ForgotPassword',
-    component: ForgotPasswordPage,
-  },
+  // {
+  //   path: '/auth/login',
+  //   name: 'Login',
+  //   component: LoginPage,
+  //   meta: { nav: true },
+  // },
+  // {
+  //   path: '/auth/register',
+  //   name: 'Register',
+  //   component: RegisterPage,
+  //   meta: { nav: true },
+  // },
+  // {
+  //   path: '/auth/forgot-password',
+  //   name: 'ForgotPassword',
+  //   component: ForgotPasswordPage,
+  // },
 
   // Admin routes
   {
@@ -116,6 +110,10 @@ const routes = [
       title: 'Error - 404',
     },
   },
+
+  // modular routes
+  ...authRoutes,
+  ...profileRoutes,
 ]
 
 const router = createRouter({
