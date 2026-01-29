@@ -1,6 +1,8 @@
 <template>
-  <div class="content-container">
-    <div class="flex items-center justify-between mb-8">
+  <div>
+    <MainHeader />
+    <div class="content-container">
+      <div class="flex items-center justify-between mb-8">
       <div class="flex items-center gap-4">
         <CategoryFilter @update:filters="onFiltersUpdate" />
         <div ref="sortRef" class="relative">
@@ -30,11 +32,13 @@
       <ProductCard v-for="p in displayProducts" :key="p.id" :product="p" />
     </div>
 
-    <div class="mt-12 border-t pt-6 flex items-center gap-6">
-      <Facebook class="w-6 h-6" />
-      <Instagram class="w-6 h-6" />
-      <Twitter class="w-6 h-6" />
+      <div class="mt-12 border-t pt-6 flex items-center gap-6">
+        <Facebook class="w-6 h-6" />
+        <Instagram class="w-6 h-6" />
+        <Twitter class="w-6 h-6" />
+      </div>
     </div>
+    <MainFooter />
   </div>
 </template>
 
@@ -44,16 +48,11 @@ import { ChevronDown, Facebook, Instagram, Twitter } from 'lucide-vue-next'
 import SearchBar from '@/components/user/SearchBar.vue'
 import ProductCard from '@/components/user/ProductCard.vue'
 import CategoryFilter from '@/components/user/CategoryFilter.vue'
+import MainHeader from '@/components/main/MainHeader.vue'
+import MainFooter from '@/components/main/MainFooter.vue'
+import { useProductsStore, type Product } from '@/stores/productsStore'
 
-type Product = {
-  id: number
-  name: string
-  price: number
-  imageUrl: string
-  soldOut?: boolean
-  color: 'light-blue' | 'black' | 'charcoal'
-}
-
+const productsStore = useProductsStore()
 const sortOpen = ref(false)
 const sortBy = ref<'price-asc' | 'price-desc' | 'name'>('name')
 const sortRef = ref<HTMLElement | null>(null)
@@ -72,38 +71,7 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// Load local images for women from src/assets/images/women (empty is fine if none yet)
-const imageModules = import.meta.glob('../../assets/images/men/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>
-
-const allProducts = computed<Product[]>(() => {
-  const entries = Object.entries(imageModules)
-  return entries.map(([path, url], idx) => {
-    const file = path.split('/').pop()!.toLowerCase()
-    const isLight = file.includes('light') || file.includes('blue')
-    const isCharcoal = file.includes('charcoal')
-    const color: 'light-blue' | 'black' | 'charcoal' = isCharcoal ? 'charcoal' : isLight ? 'light-blue' : 'black'
-    const soldOut = file.includes('sold') || file.includes('soldout')
-
-    const name =
-      color === 'light-blue'
-        ? 'LV WOMEN SLIM FIT LIGHT BLUE JEANS'
-        : color === 'black'
-          ? 'LV WOMEN SLIM FIT BLACK JEANS'
-          : 'LV WOMEN SLIM FIT CHARCOAL JEANS'
-
-    // Derive price: use number in filename if present, else base by color with small variation
-    const priceFromNameMatch = file.match(/(\d+(?:\.\d+)?)/)
-    const base = color === 'light-blue' ? 25.05 : color === 'black' ? 21.05 : 24.09
-    const variation = (idx % 4) * 0.5 // 0, 0.5, 1.0, 1.5
-    const matchedNumber = priceFromNameMatch && priceFromNameMatch[1] ? priceFromNameMatch[1] : null
-    const price = matchedNumber ? parseFloat(matchedNumber) : Number((base + variation).toFixed(2))
-
-    return { id: idx + 1, name, price, imageUrl: url, color, soldOut }
-  })
-})
+const allProducts = computed(() => productsStore.womenProducts)
 
 type Filters = {
   sizes: Record<string, boolean>
