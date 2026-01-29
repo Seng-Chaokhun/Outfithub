@@ -6,20 +6,17 @@
     <!-- Hero Section - Auto-Swapping Carousel -->
     <section class="relative bg-white py-8">
       <div class="content-container">
-        <div class="relative h-[500px] overflow-hidden">
-          <!-- Continuous Carousel Container -->
+        <div class="relative h-[500px] overflow-hidden rounded-lg w-full">
+          <!-- Carousel Container -->
           <div 
-            class="flex transition-transform duration-700 ease-in-out"
+            class="flex transition-transform duration-700 ease-in-out h-full w-full"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
           >
             <!-- Slide 1 - NEW ARRIVAL & FASHION -->
-            <div class="min-w-full flex-shrink-0 grid md:grid-cols-12 gap-6 items-center">
-              <!-- Left - Image (Larger) -->
-              <div
-                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-8"
-              >
+            <div class="min-w-full flex-shrink-0 w-full">
+              <div class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group w-full">
                 <img
-                  src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
+                  src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=600&fit=crop"
                   alt="New Arrival Fashion"
                   class="w-full h-full object-cover"
                 />
@@ -28,79 +25,20 @@
                 />
                 <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
                   NEW<br />ARRIVAL
-                </div>
-              </div>
-
-              <!-- Right - Fashion Banner (Smaller with left space) -->
-              <div
-                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-4"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
-                  alt="Fashion Collection"
-                  class="w-full h-full object-cover"
-                />
-                <div class="absolute inset-0 bg-linear-to-br from-gray-900/80 to-gray-900/60" />
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                  <div class="space-y-3 text-center">
-                    <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
-                    <h2 class="text-4xl font-bold">FASHION</h2>
-                    <div class="pt-3">
-                      <span
-                        class="inline-block bg-white text-gray-900 px-5 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
-                      >
-                        DISCOUNT UP TO 50%
-                      </span>
-                    </div>
-                    <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
-                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Slide 2 - FASHION & NEW ARRIVAL (Swapped positions) -->
-            <div class="min-w-full flex-shrink-0 grid md:grid-cols-12 gap-6 items-center">
-              <!-- Left - Fashion Banner (Larger) -->
+            <!-- Slide 2 - Single Full-Width Fashion Banner -->
+            <div class="min-w-full flex-shrink-0 w-full">
               <div
-                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-8"
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group w-full"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop"
-                  alt="Fashion Collection"
-                  class="w-full h-full object-cover"
+                  src="@/assets/images/Winterwear_at_Flat_40.jpg"
+                  alt="Winterwear Sale"
+                  class="w-full h-full object-cover object-center"
                 />
-                <div class="absolute inset-0 bg-linear-to-br from-gray-900/80 to-gray-900/60" />
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
-                  <div class="space-y-4 text-center">
-                    <div class="text-sm tracking-wider">THE NEW COLLECTION</div>
-                    <h2 class="text-5xl font-bold">FASHION</h2>
-                    <div class="pt-4">
-                      <span
-                        class="inline-block bg-white text-gray-900 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
-                      >
-                        DISCOUNT PRICE UP TO 50%
-                      </span>
-                    </div>
-                    <div class="pt-2 text-xs">WWW.OUTFITHUB.COM</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right - Image (Smaller with left space) -->
-              <div
-                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group md:col-span-4"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop"
-                  alt="New Arrival Fashion"
-                  class="w-full h-full object-cover"
-                />
-                <div
-                  class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"
-                />
-                <div class="absolute bottom-8 left-8 text-6xl font-bold text-white drop-shadow-lg">
-                  NEW<br />ARRIVAL
-                </div>
               </div>
             </div>
           </div>
@@ -248,7 +186,7 @@ const stopAutoRotate = () => {
 const goToSlide = (index: number) => {
   currentSlide.value = index
   stopAutoRotate()
-  startAutoRotate() // Restart auto-rotation after manual navigation
+  startAutoRotate()
 }
 
 // Lifecycle hooks

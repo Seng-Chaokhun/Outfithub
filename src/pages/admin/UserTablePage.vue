@@ -7,7 +7,7 @@
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li :class="{active: active === 'dashboard'}" @click="setActive('dashboard')">
+          <li :class="{active: active === 'dashboard'}" @click="goTo('/admin')">
             <i class="icon-dashboard"></i> DASHBOARD
           </li>
           <li :class="{active: active === 'profile'}" @click="goTo('/admin/users')">
@@ -30,44 +30,38 @@
     </aside>
     <main class="admin-main">
       <header class="admin-header">
-        <div class="header-title">Dashboard</div>
+        <div class="header-title">TABLE LIST</div>
         <div class="header-actions">
           <i class="icon-search"></i>
           <i class="icon-bell"></i>
           <i class="icon-user"></i>
         </div>
       </header>
-      <section class="dashboard-cards">
-        <div class="card">
-          <div class="card-title">Customer</div>
-          <div class="card-value">150</div>
-          <div class="card-footer">Update Now</div>
+      <section class="table-section">
+        <div class="table-header">
+          <div class="table-title">Customer sign in</div>
+          <div class="table-subtitle">Here is a subtitle for this table</div>
         </div>
-        <div class="card">
-          <div class="card-title">Revenue</div>
-          <div class="card-value">$1,345</div>
-          <div class="card-footer">Last day</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Errors</div>
-          <div class="card-value">23</div>
-          <div class="card-footer">In the last hour</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Followers</div>
-          <div class="card-value">+45K</div>
-          <div class="card-footer">Update now</div>
-        </div>
-      </section>
-      <section class="dashboard-content">
-        <div class="dashboard-chart">
-          <div class="chart-title">Users Behavior</div>
-          <img src="/chart-placeholder.png" alt="Users Behavior Chart" class="chart-img" />
-        </div>
-        <div class="dashboard-pie">
-          <div class="pie-title">Cash flow data</div>
-          <img src="/pie-placeholder.png" alt="Cash Flow Pie Chart" class="pie-img" />
-        </div>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>EMAIL</th>
+              <th>COUNTRY</th>
+              <th>CITY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.country }}</td>
+              <td>{{ user.city }}</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
     </main>
   </div>
@@ -76,7 +70,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-const active = ref('dashboard')
+const active = ref('profile')
 const router = useRouter()
 function setActive(tab: string) {
   active.value = tab
@@ -84,6 +78,14 @@ function setActive(tab: string) {
 function goTo(path: string) {
   router.push(path)
 }
+const users = ref([
+  { id: 1, name: 'Makara', email: 'Makara@gmail.com', country: 'Niger', city: 'Oud-Turnhout' },
+  { id: 2, name: 'Minea', email: 'Minea@gmail.com', country: 'Curaçao', city: 'Sinaai-Waas' },
+  { id: 3, name: 'Kanha', email: 'Kanha@gmail.com', country: 'Netherlands', city: 'Baileux' },
+  { id: 4, name: 'Tola', email: 'Tola@gmail.com', country: 'Korea, South', city: 'Overland Park' },
+  { id: 5, name: 'Vechka', email: 'Vechka@gmail.com', country: 'Malawi', city: 'Feldkirchen in Kärnten' },
+  { id: 6, name: 'Mesa', email: 'Mesa@gmail.com', country: 'Chile', city: 'Gloucester' },
+])
 </script>
 
 <style scoped>
@@ -156,62 +158,43 @@ function goTo(path: string) {
   font-size: 1.3rem;
   cursor: pointer;
 }
-.dashboard-cards {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-.card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  padding: 1.5rem 2rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.card-title {
-  font-size: 1rem;
-  color: #888;
-  margin-bottom: 0.5rem;
-}
-.card-value {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-.card-footer {
-  font-size: 0.9rem;
-  color: #aaa;
-}
-.dashboard-content {
-  display: flex;
-  gap: 2rem;
-}
-.dashboard-chart, .dashboard-pie {
+.table-section {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 2rem;
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
-.dashboard-pie {
-  flex: 1;
-  align-items: center;
+.table-header {
+  margin-bottom: 1.5rem;
 }
-.chart-title, .pie-title {
-  font-size: 1.1rem;
+.table-title {
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 1rem;
 }
-.chart-img, .pie-img {
+.table-subtitle {
+  font-size: 0.95rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+.user-table {
   width: 100%;
-  max-width: 400px;
-  height: auto;
+  border-collapse: collapse;
   margin-top: 1rem;
+}
+.user-table th, .user-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.user-table th {
+  background: #f7f7f7;
+  color: #888;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.user-table tr:nth-child(even) {
+  background: #f7f7f7;
+}
+.user-table tr:nth-child(odd) {
+  background: #fff;
 }
 </style>
