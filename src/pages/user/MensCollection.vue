@@ -1,6 +1,8 @@
 <template>
-  <div class="content-container">
-    <div class="flex items-center justify-between mb-8">
+  <div>
+    <MainHeader />
+    <div class="content-container">
+      <div class="flex items-center justify-between mb-8">
       <div class="flex items-center gap-4">
         <CategoryFilter @update:filters="onFiltersUpdate" />
         <div ref="sortRef" class="relative">
@@ -30,11 +32,13 @@
       <ProductCard v-for="p in displayProducts" :key="p.id" :product="p" />
     </div>
 
-    <div class="mt-12 border-t pt-6 flex items-center gap-6">
-      <Facebook class="w-6 h-6" />
-      <Instagram class="w-6 h-6" />
-      <Twitter class="w-6 h-6" />
+      <div class="mt-12 border-t pt-6 flex items-center gap-6">
+        <Facebook class="w-6 h-6" />
+        <Instagram class="w-6 h-6" />
+        <Twitter class="w-6 h-6" />
+      </div>
     </div>
+    <MainFooter />
   </div>
 </template>
 
@@ -44,16 +48,11 @@ import { ChevronDown, Facebook, Instagram, Twitter } from 'lucide-vue-next'
 import SearchBar from '@/components/user/SearchBar.vue'
 import ProductCard from '@/components/user/ProductCard.vue'
 import CategoryFilter from '@/components/user/CategoryFilter.vue'
+import MainHeader from '@/components/main/MainHeader.vue'
+import MainFooter from '@/components/main/MainFooter.vue'
+import { useProductsStore, type Product } from '@/stores/productsStore'
 
-type Product = {
-  id: number
-  name: string
-  price: number
-  imageUrl: string
-  soldOut?: boolean
-  color: 'light-blue' | 'black' | 'charcoal'
-}
-
+const productsStore = useProductsStore()
 const sortOpen = ref(false)
 const sortBy = ref<'price-asc' | 'price-desc' | 'name'>('name')
 const sortRef = ref<HTMLElement | null>(null)
@@ -72,32 +71,10 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// Load local images from src/assets/images at build time
-const imageModules = import.meta.glob('../../assets/images/men/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>
-
-const allProducts = computed<Product[]>(() => {
-  const entries = Object.entries(imageModules)
-  return entries.map(([path, url], idx) => {
-    const file = path.split('/').pop()!.toLowerCase()
-    const isLight = file.includes('light') || file.includes('blue')
-    const isCharcoal = file.includes('charcoal')
-    const color: 'light-blue' | 'black' | 'charcoal' = isCharcoal ? 'charcoal' : isLight ? 'light-blue' : 'black'
-    const soldOut = file.includes('sold') || file.includes('soldout')
-
-    const name =
-      color === 'light-blue'
-        ? 'LV MEN SLIM FIT LIGHT BLUE JEANS'
-        : color === 'black'
-          ? 'LV MEN SLIM FIT BLACK JEANS'
-          : 'LV MEN SLIM FIT CHARCOAL JEANS'
-
-    const price = color === 'light-blue' ? 25.05 : color === 'black' ? 21.05 : 24.09
-
-    return { id: idx + 1, name, price, imageUrl: url, color, soldOut }
-  })
+const allProducts = computed(() => {
+  console.log('Men products count:', productsStore.menProducts.length)
+  console.log('Men products:', productsStore.menProducts)
+  return productsStore.menProducts
 })
 
 type Filters = {
@@ -125,16 +102,19 @@ function changeSort(mode: 'price-asc' | 'price-desc' | 'name') {
 
 const displayProducts = computed(() => {
   let items = [...allProducts.value]
+  console.log('Before filters:', items.length, items.map(p => ({ id: p.id, price: p.price, name: p.name })))
   
   // Filter by price
   items = items.filter(p => p.price <= activeFilters.value.priceMax)
+  console.log('After price filter (max:', activeFilters.value.priceMax, '):', items.length)
   
   // Filter by availability
-  if (activeFilters.value.availability === 'inStock') {
-    items = items.filter(p => !p.soldOut)
-  } else if (activeFilters.value.availability === 'outOfStock') {
-    items = items.filter(p => p.soldOut)
-  }
+    if (activeFilters.value.availability === 'inStock') {
+      items = items.filter(p => !p.soldOut)
+    } else if (activeFilters.value.availability === 'outOfStock') {
+      items = items.filter(p => p.soldOut)
+    }
+    console.log('After availability filter:', items.length)
   
   // Filter by product type (if any selected)
   const selectedTypes = Object.entries(activeFilters.value.productTypes)
@@ -143,11 +123,13 @@ const displayProducts = computed(() => {
   if (selectedTypes.length > 0) {
     items = items.filter(p => selectedTypes.some(t => p.name.toLowerCase().includes(t)))
   }
+  console.log('After type filter:', items.length, 'Selected types:', selectedTypes)
 
   if (sortBy.value === 'price-asc') items.sort((a, b) => a.price - b.price)
   else if (sortBy.value === 'price-desc') items.sort((a, b) => b.price - a.price)
   else items.sort((a, b) => a.name.localeCompare(b.name))
 
+  console.log('Final items:', items.length)
   return items
 })
 </script>

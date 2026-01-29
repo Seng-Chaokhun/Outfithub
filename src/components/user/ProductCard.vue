@@ -14,13 +14,6 @@
 					SOLD OUT
 				</span>
 			</div>
-			<button
-				v-else
-				@click.stop="handleAddToCart"
-				class="absolute bottom-3 left-3 right-3 bg-black text-white text-sm py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-800"
-			>
-				Add to Cart
-			</button>
 		</div>
 
 		<div class="space-y-1">

@@ -112,31 +112,31 @@ const sections = [
     items: [
       { label: 'Men', to: '/collection/mens' },
       { label: 'Women', to: '/collection/womens' },
-      { label: 'Accessories', to: '/search?tag=accessories' },
+      { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
   {
     title: 'MEN',
     items: [
-      { label: 'Tops', to: '/search?cat=men-tops' },
-      { label: 'Bottoms', to: '/search?cat=men-bottoms' },
-      { label: 'Accessories', to: '/search?cat=men-accessories' },
+      { label: 'Tops', to: '/collection/mens/tops' },
+      { label: 'Bottoms', to: '/collection/mens/bottoms' },
+      { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
   {
     title: 'WOMEN',
     items: [
-      { label: 'Tops', to: '/search?cat=women-tops' },
-      { label: 'Bottoms', to: '/search?cat=women-bottoms' },
-      { label: 'Accessories', to: '/search?cat=women-accessories' },
+      { label: 'Tops', to: '/collection/womens/tops' },
+      { label: 'Bottoms', to: '/collection/womens/bottoms' },
+      { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
   {
     title: 'SALE',
     items: [
-      { label: 'All Sale', to: '/search?sale=all' },
-      { label: "Men's Sale", to: '/search?sale=men' },
-      { label: "Women's Sale", to: '/search?sale=women' },
+      { label: 'All Sale', to: '/sale' },
+      { label: "Men's Sale", to: '/collection/mens' },
+      { label: "Women's Sale", to: '/collection/womens' },
     ],
   },
 ]
