@@ -26,6 +26,8 @@ export const useCartStore = defineStore('cart', () => {
     return items.value.reduce((sum, item) => sum + item.quantity, 0)
   })
 
+  const totalPrice = computed(() => subtotal.value)
+
   const freeShippingThreshold = 50
   const freeShippingRemaining = computed(() => {
     return Math.max(0, freeShippingThreshold - subtotal.value)
@@ -96,6 +98,7 @@ export const useCartStore = defineStore('cart', () => {
   return {
     items,
     subtotal,
+    totalPrice,
     itemCount,
     freeShippingRemaining,
     freeShippingThreshold,

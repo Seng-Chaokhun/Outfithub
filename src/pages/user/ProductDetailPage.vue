@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-white">
+    <MainHeader />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Breadcrumb -->
       <nav class="text-sm text-gray-600 mb-6">
@@ -51,11 +52,30 @@
             </div>
           </div>
 
-          <!-- Stock Warning -->
-          <div v-if="product.stock && product.stock < 5" class="mb-6">
-            <p class="text-sm text-red-600 font-medium">
-              HURRY, ONLY {{ product.stock }} ITEMS LEFT IN STOCK!
-            </p>
+          <!-- Quantity Selection -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-3">QUANTITY</label>
+            <div class="flex items-center gap-3">
+              <button
+                @click="decreaseQuantity"
+                :disabled="quantity <= 1"
+                class="w-10 h-10 border border-gray-300 rounded-md flex items-center justify-center hover:border-gray-400 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <span class="text-lg font-medium">−</span>
+              </button>
+              <input
+                v-model.number="quantity"
+                type="number"
+                min="1"
+                class="w-16 h-10 border border-gray-300 rounded-md text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <button
+                @click="increaseQuantity"
+                class="w-10 h-10 border border-gray-300 rounded-md flex items-center justify-center hover:border-gray-400 transition-colors cursor-pointer"
+              >
+                <span class="text-lg font-medium">+</span>
+              </button>
+            </div>
           </div>
 
           <!-- Add to Cart Button -->
@@ -135,6 +155,7 @@
         <p class="text-xs text-gray-500">© Outfithub, all rights reserved.</p>
       </div>
     </div>
+    <MainFooter />
   </div>
 </template>
 
@@ -143,52 +164,105 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ChevronDown, Share2, Facebook, Instagram, Twitter } from 'lucide-vue-next'
 import { useCartStore } from '@/stores/cartStore'
+import { useProductsStore } from '@/stores/productsStore'
+import MainHeader from '@/components/main/MainHeader.vue'
+import MainFooter from '@/components/main/MainFooter.vue'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
 const cartStore = useCartStore()
+const productsStore = useProductsStore()
 
 const selectedSize = ref('')
+const quantity = ref(1)
 const detailsOpen = ref(false)
 const shippingOpen = ref(false)
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL']
 
-// Load images dynamically
-const imageModules = import.meta.glob('../../assets/images/men/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>
-
-const allImages = computed(() => Object.values(imageModules))
-
-// Mock product data - in real app, fetch from API
-const product = ref({
-  id: parseInt(props.id),
-  name: 'LAC MEN SLIM FIT BLACK JEANS',
-  price: 24.90,
-  sku: '072836-31',
-  stock: 2,
-  color: 'black' as 'black' | 'light-blue' | 'charcoal',
-  imageUrl: allImages.value[0] || '',
-  description: 'Premium quality slim fit jeans crafted from comfortable stretch denim. Perfect for everyday wear with a modern, tailored silhouette.'
-})
-
-// Use multiple images for the product
-const productImages = computed(() => {
-  // In a real app, you'd fetch specific images for this product
-  // For now, we'll use the first 3 available images or repeat the first one
-  const images = allImages.value.filter(img => 
-    img.toLowerCase().includes('black') || img.toLowerCase().includes('jeans')
-  )
-  if (images.length >= 3) {
-    return images.slice(0, 3)
-  } else if (images.length > 0) {
-    // Repeat images if we don't have enough
-    return [images[0], images[0], images[0]]
+// Get product data from store
+const product = computed(() => {
+  const prod = productsStore.getProductById(parseInt(props.id))
+  if (!prod) {
+    // Fallback product if not found
+    return {
+      id: parseInt(props.id),
+      name: 'Product Not Found',
+      price: 0,
+      sku: 'N/A',
+      color: 'black' as const,
+      imageUrl: '',
+      description: 'This product could not be found.',
+      category: 'men' as const
+    }
   }
-  return allImages.value.slice(0, 3)
+  return prod
 })
+
+const productImageOverrides: Record<number, string[]> = {
+  1: [
+    new URL('../../assets/images/men/LAC Men Slim Fit Black Jeans 24.90.png', import.meta.url).href,
+    new URL('../../assets/images/men/Container (1).png', import.meta.url).href,
+    new URL('../../assets/images/men/LAC Men Slim Fit Black Jeans 24.90.png', import.meta.url).href,
+  ],
+}
+
+// Get all images for the product's category to show different angles
+const allCategoryImages = computed(() => {
+  if (product.value.category === 'men') {
+    return productsStore.menProducts.map(p => p.imageUrl)
+  } else {
+    return productsStore.womenProducts.map(p => p.imageUrl)
+  }
+})
+
+// Show 3 different product images (different angles/views)
+const productImages = computed(() => {
+  const categoryImgs = allCategoryImages.value
+  const currentProduct = product.value
+  const productId = currentProduct.id
+
+  const overrideImages = productImageOverrides[productId]
+  if (overrideImages && overrideImages.length > 0) {
+    return overrideImages
+  }
+  
+  console.log('Product ID:', productId)
+  console.log('Category images:', categoryImgs)
+  console.log('Total category images:', categoryImgs.length)
+  
+  if (currentProduct.category === 'men' && categoryImgs.length >= 6) {
+    // Product 4 (Light Blue Jeans) - use first 3 images (image 3, image 6, image 7)
+    if (productId === 4) {
+      console.log('Using first 3 images for product 4')
+      return [categoryImgs[0], categoryImgs[1], categoryImgs[2]]
+    }
+    // Other men's products - use last 3 images (screenshots - black jeans angles)
+    else {
+      console.log('Using last 3 images for product', productId)
+      const angleImages = categoryImgs.slice(-3)
+      return angleImages
+    }
+  } else if (currentProduct.category === 'women') {
+    // For women's products, show the main product image 3 times
+    const mainImg = currentProduct.imageUrl
+    return [mainImg, mainImg, mainImg]
+  } else {
+    // Fallback
+    const mainImg = currentProduct.imageUrl
+    return [mainImg, mainImg, mainImg]
+  }
+})
+
+const increaseQuantity = () => {
+  quantity.value++
+}
+
+const decreaseQuantity = () => {
+  if (quantity.value > 1) {
+    quantity.value--
+  }
+}
 
 const handleAddToCart = () => {
   if (!selectedSize.value) {
@@ -196,16 +270,26 @@ const handleAddToCart = () => {
     return
   }
 
-  cartStore.addItem({
-    productId: product.value.id,
-    name: product.value.name,
-    price: product.value.price,
-    imageUrl: product.value.imageUrl,
-    size: selectedSize.value,
-    color: product.value.color
-  })
+  const prod = product.value
+  if (!prod || prod.price === 0) {
+    alert('Product not available')
+    return
+  }
 
-  alert(`${product.value.name} (Size: ${selectedSize.value}) added to cart!`)
+  // Add items to cart based on quantity
+  for (let i = 0; i < quantity.value; i++) {
+    cartStore.addItem({
+      productId: prod.id,
+      name: prod.name,
+      price: prod.price,
+      imageUrl: prod.imageUrl,
+      size: selectedSize.value,
+      color: prod.color
+    })
+  }
+
+  alert(`${quantity.value} × ${prod.name} (Size: ${selectedSize.value}) added to cart!`)
+  quantity.value = 1 // Reset quantity after adding to cart
 }
 
 // Simulate loading product data

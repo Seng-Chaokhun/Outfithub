@@ -8,6 +8,7 @@ const DashboardPage = () => import('@/pages/admin/DashboardPage.vue')
 const NotificationPage = () => import('@/pages/admin/NotificationPage.vue')
 const ProductManagement = () => import('@/pages/admin/ProductManagement.vue')
 const StockManagement = () => import('@/pages/admin/StockManagement.vue')
+const UserTablePage = () => import('@/pages/admin/UserTablePage.vue')
 
 // Auth pages
 // const LoginPage = () => import('@/pages/auth/LoginPage.vue')
@@ -17,8 +18,15 @@ const StockManagement = () => import('@/pages/admin/StockManagement.vue')
 // User pages
 const MensCollection = () => import('@/pages/user/MensCollection.vue')
 const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
+const AccessoriesCollection = () => import('@/pages/user/AccessoriesCollection.vue')
+const MensTops = () => import('@/pages/user/MensTops.vue')
+const MensBottoms = () => import('@/pages/user/MensBottoms.vue')
+const WomensTops = () => import('@/pages/user/WomensTops.vue')
+const WomensBottoms = () => import('@/pages/user/WomensBottoms.vue')
+const AllSale = () => import('@/pages/user/AllSale.vue')
 const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
 const SearchPage = () => import('@/pages/user/SearchPage.vue')
+const CheckoutPage = () => import('@/pages/user/CheckoutPage.vue')
 
 // Landing page
 const LandingPage = () => import('@/pages/LandingPage.vue')
@@ -48,6 +56,37 @@ const routes = [
     meta: { nav: true },
   },
   {
+    path: '/collection/accessories',
+    name: 'Accessories',
+    component: AccessoriesCollection,
+    meta: { nav: true },
+  },
+  {
+    path: '/collection/mens/tops',
+    name: "Men's Tops",
+    component: MensTops,
+  },
+  {
+    path: '/collection/mens/bottoms',
+    name: "Men's Bottoms",
+    component: MensBottoms,
+  },
+  {
+    path: '/collection/womens/tops',
+    name: "Women's Tops",
+    component: WomensTops,
+  },
+  {
+    path: '/collection/womens/bottoms',
+    name: "Women's Bottoms",
+    component: WomensBottoms,
+  },
+  {
+    path: '/sale',
+    name: 'All Sale',
+    component: AllSale,
+  },
+  {
     path: '/product/:id',
     name: 'Product Detail',
     component: ProductDetailPage,
@@ -57,6 +96,11 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: SearchPage,
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: CheckoutPage,
   },
   // Auth routes
   // {
@@ -79,6 +123,12 @@ const routes = [
 
   // Admin routes
   {
+    path: '/admin',
+    name: 'AdminPanel',
+    component: DashboardPage,
+    meta: { nav: true },
+  },
+  {
     path: '/admin/dashboard',
     name: 'Dashboard',
     component: DashboardPage,
@@ -98,6 +148,12 @@ const routes = [
     path: '/admin/stock',
     name: 'StockManagement',
     component: StockManagement,
+  },
+  {
+    path: '/admin/users',
+    name: 'UserTable',
+    component: UserTablePage,
+    meta: { nav: true },
   },
 
   // Other pages
