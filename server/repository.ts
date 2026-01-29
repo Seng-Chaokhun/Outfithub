@@ -2,17 +2,17 @@ import { pool } from './db.js'
 
 export async function findByUsername(username: string) {
   const [rows] = await pool.query('SELECT * FROM users WHERE username = ? LIMIT 1', [username])
-  return (rows as any[])[0] || null
+  return rows[0] || null
 }
 
 export async function findById(id) {
   const [rows] = await pool.query('SELECT * FROM users WHERE id = ? LIMIT 1', [id])
-  return (rows as any[])[0] || null
+  return rows[0] || null
 }
 
 export async function isUsernameTaken(username) {
   const [rows] = await pool.query('SELECT 1 FROM users WHERE username = ? LIMIT 1', [username])
-  return !!(rows as any[]).length
+  return !!rows.length
 }
 
 export async function isUsernameTakenByOther(username, id) {
@@ -20,12 +20,12 @@ export async function isUsernameTakenByOther(username, id) {
     username,
     id,
   ])
-  return !!(rows as any[]).length
+  return !!rows.length
 }
 
 export async function isEmailTaken(email) {
   const [rows] = await pool.query('SELECT 1 FROM users WHERE email = ? LIMIT 1', [email])
-  return !!(rows as any[]).length
+  return !!rows.length
 }
 
 export async function isEmailTakenByOther(email, id) {
@@ -33,7 +33,7 @@ export async function isEmailTakenByOther(email, id) {
     email,
     id,
   ])
-  return !!(rows as any[]).length
+  return !!rows.length
 }
 
 export async function createUser({
@@ -48,7 +48,7 @@ export async function createUser({
     'INSERT INTO users (username, email, full_name, avatar_url, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)',
     [username, email, fullName ?? username, avatar ?? null, passwordHash, role],
   )
-  return { id: (result as any).insertId, username, email, role, fullName, avatar }
+  return { id: result.insertId, username, email, role, fullName, avatar }
 }
 
 export async function updateProfile(id, { username, email, fullName, avatar }) {
