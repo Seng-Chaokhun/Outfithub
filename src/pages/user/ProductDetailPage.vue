@@ -11,13 +11,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <!-- Left: Product Images -->
         <div class="space-y-4">
-          <div 
-            v-for="(image, index) in productImages" 
+          <div
+            v-for="(image, index) in productImages"
             :key="index"
             class="relative overflow-hidden rounded-lg bg-gray-100"
           >
-            <img 
-              :src="image" 
+            <img
+              :src="image"
               :alt="`${product.name} - Image ${index + 1}`"
               class="w-full h-auto object-cover"
             />
@@ -28,7 +28,7 @@
         <div class="lg:sticky lg:top-8 h-fit">
           <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
           <p class="text-2xl font-semibold text-gray-900 mb-4">${{ product.price.toFixed(2) }}</p>
-          
+
           <!-- SKU -->
           <p class="text-sm text-gray-500 mb-6">{{ product.sku }}</p>
 
@@ -95,7 +95,7 @@
                 class="flex items-center justify-between w-full text-left"
               >
                 <span class="text-sm font-medium text-gray-900">DETAILS</span>
-                <ChevronDown 
+                <ChevronDown
                   :class="['w-5 h-5 transition-transform', detailsOpen ? 'rotate-180' : '']"
                 />
               </button>
@@ -117,7 +117,7 @@
                 class="flex items-center justify-between w-full text-left"
               >
                 <span class="text-sm font-medium text-gray-900">SHIPPING AND RETURNS</span>
-                <ChevronDown 
+                <ChevronDown
                   :class="['w-5 h-5 transition-transform', shippingOpen ? 'rotate-180' : '']"
                 />
               </button>
@@ -161,7 +161,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { ChevronDown, Share2, Facebook, Instagram, Twitter } from 'lucide-vue-next'
 import { useCartStore } from '@/stores/cartStore'
 import { useProductsStore } from '@/stores/productsStore'
@@ -169,7 +168,6 @@ import MainHeader from '@/components/main/MainHeader.vue'
 import MainFooter from '@/components/main/MainFooter.vue'
 
 const props = defineProps<{ id: string }>()
-const router = useRouter()
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
 
@@ -226,11 +224,11 @@ const productImages = computed(() => {
   if (overrideImages && overrideImages.length > 0) {
     return overrideImages
   }
-  
+
   console.log('Product ID:', productId)
   console.log('Category images:', categoryImgs)
   console.log('Total category images:', categoryImgs.length)
-  
+
   if (currentProduct.category === 'men' && categoryImgs.length >= 6) {
     // Product 4 (Light Blue Jeans) - use first 3 images (image 3, image 6, image 7)
     if (productId === 4) {

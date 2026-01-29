@@ -42,9 +42,9 @@ const handleLogin = async () => {
       message.value = 'Login failed. Please check your credentials.'
       isSuccess.value = false
     }
-  } catch (error: any) {
-    message.value =
-      error?.response?.data?.message || error?.message || 'Login failed. Please try again.'
+  } catch (error) {
+
+    message.value = error instanceof Error ? error.message : 'Login failed. Please try again.'
     isSuccess.value = false
     console.error('Login failed:', error)
   }

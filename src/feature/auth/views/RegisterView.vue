@@ -68,10 +68,11 @@ const handleRegister = async () => {
       message.value = response?.message || 'Registration failed'
       isSuccess.value = false
     }
-  } catch (error: any) {
-    message.value = error?.message || 'Registration failed. Please try again.'
+  }  catch (error) {
+
+    message.value = error instanceof Error ? error.message : 'Login failed. Please try again.'
     isSuccess.value = false
-    console.error('Register failed:', error)
+    console.error('Login failed:', error)
   }
 }
 </script>
