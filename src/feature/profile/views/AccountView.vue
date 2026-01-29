@@ -77,18 +77,43 @@
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
               <h1 class="text-2xl font-semibold">Security</h1>
 
-              <SecurityCard
-                title="Password"
-                description="Change your password to keep your account secure."
-                action="Change Password"
-              />
+              <div
+                class="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm flex items-center justify-between cursor-pointer hover:shadow-md transition"
+                @click="openChangePassword"
+              >
+                <div>
+                  <h3 class="font-semibold text-gray-800 text-lg">Password</h3>
+                  <p class="text-gray-500 text-sm">Change your password to keep your account secure.</p>
+                </div>
+
+                <button class="px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-black cursor-pointer">
+                  Change Password
+                </button>
+              </div>
 
               <SecurityCard
                 title="Two-Factor Authentication"
                 description="Add an extra layer of security to your account."
                 action="Configure 2FA"
               />
+
+              <div class="border-t pt-6">
+                <button
+                  @click="handleLogout"
+                  class="bg-red-600 text-white px-5 py-2.5 rounded-xl hover:bg-red-700 transition cursor-pointer font-medium"
+                >
+                  Logout
+                </button>
+                <p class="text-sm text-gray-500 mt-2">Sign out of your account and end your session.</p>
+              </div>
             </div>
+
+            <ChangePasswordModal
+              v-if="passwordChangeMode"
+              ref="passwordModal"
+              @close="passwordChangeMode = false"
+              @save="savePassword"
+            />
           </section>
 
           <section v-else-if="activeTab === 'devices'" key="devices">
@@ -124,18 +149,23 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted, watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import InfoCard from '@/components/account/InfoCard.vue'
 import EditProfileModal from '@/components/account/EditProfileModal.vue'
+import ChangePasswordModal from '@/components/account/ChangePasswordModal.vue'
 import SecurityCard from '@/components/account/SecurityCard.vue'
 import DeviceCard from '@/components/account/DeviceCard.vue'
 import ToggleRow from '@/components/account/ToggleRow.vue'
 import MainHeader from '@/components/main/MainHeader.vue'
 import { useProfileStore } from '../store'
+import { useAuthStore } from '@/feature/auth/store'
 import type * as I from '@/../shared/interfaces'
 
 const props = defineProps<{ id: string }>()
 
+const router = useRouter()
 const store = useProfileStore()
+const authStore = useAuthStore()
 const { profile, loading, error } = store
 
 const tabs = [
@@ -153,6 +183,9 @@ const fallbackAvatar = computed(
 const form = reactive<I.ProfileUpdateForm>({})
 const editMode = ref(false)
 const editModal = ref<InstanceType<typeof EditProfileModal> | null>(null)
+
+const passwordChangeMode = ref(false)
+const passwordModal = ref<InstanceType<typeof ChangePasswordModal> | null>(null)
 
 const sessions = reactive([
   { id: 1, device: 'Chrome on Windows 10', location: 'Cambodia', lastActive: '5 minutes ago' },
@@ -188,6 +221,32 @@ const saveProfile = async (updated: I.ProfileUpdateForm) => {
     }
   } catch (err) {
     editModal.value?.setError(err instanceof Error ? err.message : 'Failed to save profile')
+  }
+}
+
+const handleLogout = async () => {
+  try {
+    await authStore.logoutUser()
+    await router.push('/login')
+  } catch (err) {
+    console.error('Logout failed:', err)
+  }
+}
+
+const openChangePassword = () => {
+  passwordChangeMode.value = true
+}
+
+const savePassword = async (passwordForm: I.ChangePasswordForm) => {
+  try {
+    const response = await authStore.changeUserPassword(passwordForm)
+    if (response?.success) {
+      passwordModal.value?.showSuccess()
+    } else {
+      passwordModal.value?.setError(response?.message || 'Failed to change password')
+    }
+  } catch (err) {
+    passwordModal.value?.setError(err instanceof Error ? err.message : 'Failed to change password')
   }
 }
 

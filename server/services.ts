@@ -59,9 +59,17 @@ export async function handle(op, body) {
       return { body: ok('Login successful', session) }
     }
     case 'changePassword': {
-      // NOTE: The current client payload lacks user identification.
-      // Reject until client sends authenticated context (e.g., userId from session/token).
-      return error('Unauthorized: missing user context', 401)
+      const { userId, currentPassword, newPassword } = body || {}
+      if (!userId || !currentPassword || !newPassword) {
+        return error('Missing password change fields')
+      }
+      const user = await Users.findById(Number(userId))
+      if (!user) return error('User not found', 404)
+      const match = await bcrypt.compare(currentPassword, user.password_hash)
+      if (!match) return error('Current password is incorrect', 401)
+      const passwordHash = await bcrypt.hash(newPassword, 10)
+      await Users.updatePassword(Number(userId), passwordHash)
+      return { body: ok('Password changed successfully') }
     }
     case 'refreshToken': {
       const { userId } = body || {}
