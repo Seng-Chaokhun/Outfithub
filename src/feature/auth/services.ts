@@ -20,7 +20,11 @@ export async function refreshToken(session: I.Session): Promise<I.ApiResponse<I.
 }
 
 export async function changePassword(form: I.ChangePasswordForm): Promise<I.ApiResponse> {
-  return deliver<I.ChangePasswordForm>(form)
+  const session = loadSession()
+  return deliver<I.ChangePasswordForm & { userId: string }>({
+    ...form,
+    userId: session?.userId || '',
+  })
 }
 
 // local calls (LPC model)

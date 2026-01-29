@@ -77,6 +77,11 @@ export async function updateProfile(id, { username, email, fullName, avatar }) {
   return findById(id)
 }
 
+export async function updatePassword(id, passwordHash) {
+  await pool.query('UPDATE users SET password_hash = ? WHERE id = ? LIMIT 1', [passwordHash, id])
+  return findById(id)
+}
+
 export default {
   findByUsername,
   findById,
@@ -86,4 +91,5 @@ export default {
   isEmailTakenByOther,
   createUser,
   updateProfile,
+  updatePassword,
 }
