@@ -125,16 +125,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cartStore'
 
 defineProps<{
 	isOpen: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
 	(e: 'close'): void
 }>()
 
+const router = useRouter()
 const cartStore = useCartStore()
 const note = ref('')
 
@@ -153,7 +155,8 @@ function checkout() {
 		alert('Your cart is empty')
 		return
 	}
-	alert(`Proceeding to checkout...\nSubtotal: $${cartStore.subtotal.toFixed(2)}`)
+	emit('close')
+	router.push('/checkout')
 }
 </script>
 
