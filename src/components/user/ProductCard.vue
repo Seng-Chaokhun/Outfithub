@@ -33,8 +33,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCartStore } from '@/stores/cartStore'
-import { useAuthStore } from '@/feature/auth/store'
 
 interface Product {
   id: number
@@ -46,33 +44,9 @@ interface Product {
 }
 
 const props = defineProps<{ product: Product }>()
-const cartStore = useCartStore()
-const authStore = useAuthStore()
 const router = useRouter()
 
 const displayPrice = computed(() => `${props.product.price.toFixed(2)}$`)
-
-function handleAddToCart() {
-  if (!authStore.isAuthenticated) {
-    router.push('/login')
-    return
-  }
-
-  // Default size - in a real app, you'd show a size selector modal
-  const defaultSize = 'M'
-
-  cartStore.addItem({
-    productId: props.product.id,
-    name: props.product.name,
-    price: props.product.price,
-    imageUrl: props.product.imageUrl,
-    size: defaultSize,
-    color: props.product.color || 'black',
-  })
-
-  // Optional: show a brief success message
-  alert(`${props.product.name} added to cart!`)
-}
 
 function viewDetails() {
   router.push(`/product/${props.product.id}`)
