@@ -5,8 +5,8 @@
     <!-- Page Header -->
     <section class="bg-white py-8 border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Women's Bottoms</h1>
-        <p class="mt-2 text-gray-600">Find the perfect pants, skirts, and more</p>
+        <h1 class="text-3xl font-bold text-gray-900">Men's Tops</h1>
+        <p class="mt-2 text-gray-600">Discover our latest collection of men's tops</p>
       </div>
     </section>
 
@@ -15,7 +15,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-8">
           <!-- Filters Sidebar -->
-          <aside class="w-full lg:w-64 flex-shrink-0">
+          <aside class="w-full lg:w-64 shrink-0">
             <CategoryFilter />
           </aside>
 
@@ -56,8 +56,11 @@ import { useProductsStore } from '@/stores/productsStore'
 const productsStore = useProductsStore()
 
 const filteredProducts = computed(() => {
-  return productsStore.womenProducts.filter(
-    (product) => product.name.toLowerCase().includes('jean') || product.name.toLowerCase().includes('pant') || product.name.toLowerCase().includes('short') || product.name.toLowerCase().includes('skirt')
+  return productsStore.menProducts.filter(
+    (product) =>
+      product.name.toLowerCase().includes('tee') ||
+      product.name.toLowerCase().includes('shirt') ||
+      product.name.toLowerCase().includes('top'),
   )
 })
 </script>

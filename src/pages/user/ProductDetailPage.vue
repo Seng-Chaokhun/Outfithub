@@ -44,7 +44,7 @@
                   'px-4 py-2 border rounded-md text-sm font-medium transition-colors',
                   selectedSize === size
                     ? 'bg-black text-white border-black'
-                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400',
                 ]"
               >
                 {{ size }}
@@ -100,7 +100,12 @@
                 />
               </button>
               <div v-show="detailsOpen" class="mt-3 text-sm text-gray-600 space-y-2">
-                <p>{{ product.description || 'Premium quality slim fit jeans with comfortable stretch fabric.' }}</p>
+                <p>
+                  {{
+                    product.description ||
+                    'Premium quality slim fit jeans with comfortable stretch fabric.'
+                  }}
+                </p>
                 <ul class="list-disc list-inside space-y-1 mt-3">
                   <li>98% Cotton, 2% Elastane</li>
                   <li>Slim fit design</li>
@@ -124,7 +129,10 @@
               <div v-show="shippingOpen" class="mt-3 text-sm text-gray-600 space-y-2">
                 <p><strong>Shipping:</strong> Free standard shipping on orders over $50</p>
                 <p><strong>Delivery:</strong> 5-7 business days</p>
-                <p><strong>Returns:</strong> 30-day return policy. Items must be unworn with tags attached.</p>
+                <p>
+                  <strong>Returns:</strong> 30-day return policy. Items must be unworn with tags
+                  attached.
+                </p>
               </div>
             </div>
           </div>
@@ -164,12 +172,16 @@ import { ref, computed, onMounted } from 'vue'
 import { ChevronDown, Share2, Facebook, Instagram, Twitter } from 'lucide-vue-next'
 import { useCartStore } from '@/stores/cartStore'
 import { useProductsStore } from '@/stores/productsStore'
+import { useAuthStore } from '@/feature/auth/store'
+import { useRouter } from 'vue-router'
 import MainHeader from '@/components/main/MainHeader.vue'
 import MainFooter from '@/components/main/MainFooter.vue'
 
 const props = defineProps<{ id: string }>()
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
+const authStore = useAuthStore()
+const router = useRouter()
 
 const selectedSize = ref('')
 const quantity = ref(1)
@@ -191,7 +203,7 @@ const product = computed(() => {
       color: 'black' as const,
       imageUrl: '',
       description: 'This product could not be found.',
-      category: 'men' as const
+      category: 'men' as const,
     }
   }
   return prod
@@ -208,9 +220,9 @@ const productImageOverrides: Record<number, string[]> = {
 // Get all images for the product's category to show different angles
 const allCategoryImages = computed(() => {
   if (product.value.category === 'men') {
-    return productsStore.menProducts.map(p => p.imageUrl)
+    return productsStore.menProducts.map((p) => p.imageUrl)
   } else {
-    return productsStore.womenProducts.map(p => p.imageUrl)
+    return productsStore.womenProducts.map((p) => p.imageUrl)
   }
 })
 
@@ -263,6 +275,11 @@ const decreaseQuantity = () => {
 }
 
 const handleAddToCart = () => {
+  if (!authStore.isAuthenticated) {
+    router.push('/login')
+    return
+  }
+
   if (!selectedSize.value) {
     alert('Please select a size')
     return
@@ -282,7 +299,7 @@ const handleAddToCart = () => {
       price: prod.price,
       imageUrl: prod.imageUrl,
       size: selectedSize.value,
-      color: prod.color
+      color: prod.color,
     })
   }
 

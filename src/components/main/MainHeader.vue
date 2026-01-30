@@ -31,14 +31,14 @@
             NEW ARRIVALS
           </router-link>
           <router-link
-            to="/collection/mens"
+            to="/collection/men"
             class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
             active-class="text-gray-900"
           >
             MEN
           </router-link>
           <router-link
-            to="/collection/womens"
+            to="/collection/women"
             class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
             active-class="text-gray-900"
           >
@@ -124,14 +124,14 @@
             NEW ARRIVALS
           </router-link>
           <router-link
-            to="/collection/mens"
+            to="/collection/men"
             @click="showMobileMenu = false"
             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
           >
             MEN
           </router-link>
           <router-link
-            to="/collection/womens"
+            to="/collection/women"
             @click="showMobileMenu = false"
             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
           >

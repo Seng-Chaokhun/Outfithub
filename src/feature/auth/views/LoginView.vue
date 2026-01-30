@@ -1,18 +1,20 @@
 <template>
-  <form @submit.prevent="handleLogin">
-    <h1>Login</h1>
-    <div>
-      <label for="username">Username:</label>
-      <input v-model="username" type="text" id="username" placeholder="Username" required />
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input v-model="password" type="password" id="password" placeholder="Password" required />
-    </div>
-    <button type="submit">Login</button>
-    <p v-if="message" :class="isSuccess ? 'success' : 'error'">{{ message }}</p>
-    <p><router-link to="/register">Don't have an account? Register here</router-link></p>
-  </form>
+  <div class="auth-container">
+    <form @submit.prevent="handleLogin">
+      <h1>Login</h1>
+      <div>
+        <label for="username">Username:</label>
+        <input v-model="username" type="text" id="username" placeholder="Username" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input v-model="password" type="password" id="password" placeholder="Password" required />
+      </div>
+      <button type="submit">Login</button>
+      <p v-if="message" :class="isSuccess ? 'success' : 'error'">{{ message }}</p>
+      <p><router-link to="/register">Don't have an account? Register here</router-link></p>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -43,7 +45,6 @@ const handleLogin = async () => {
       isSuccess.value = false
     }
   } catch (error) {
-
     message.value = error instanceof Error ? error.message : 'Login failed. Please try again.'
     isSuccess.value = false
     console.error('Login failed:', error)
@@ -53,6 +54,14 @@ const handleLogin = async () => {
 
 <style scoped lang="scss">
 @use '../assets/auth.scss';
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
 
 form {
   max-width: 400px;
