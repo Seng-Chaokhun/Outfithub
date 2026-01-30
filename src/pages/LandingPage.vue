@@ -8,13 +8,15 @@
       <div class="content-container">
         <div class="relative h-[500px] overflow-hidden rounded-lg w-full">
           <!-- Carousel Container -->
-          <div 
+          <div
             class="flex transition-transform duration-700 ease-in-out h-full w-full"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
           >
             <!-- Slide 1 - NEW ARRIVAL & FASHION -->
-            <div class="min-w-full flex-shrink-0 w-full">
-              <div class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group w-full">
+            <div class="min-w-full shrink-0 w-full">
+              <div
+                class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group w-full"
+              >
                 <img
                   src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=600&fit=crop"
                   alt="New Arrival Fashion"
@@ -30,7 +32,7 @@
             </div>
 
             <!-- Slide 2 - Single Full-Width Fashion Banner -->
-            <div class="min-w-full flex-shrink-0 w-full">
+            <div class="min-w-full shrink-0 w-full">
               <div
                 class="relative h-[500px] rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow group w-full"
               >
@@ -51,7 +53,7 @@
               @click="goToSlide(index - 1)"
               :class="[
                 'w-3 h-3 rounded-full transition-all duration-300',
-                currentSlide === index - 1 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+                currentSlide === index - 1 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75',
               ]"
               :aria-label="`Go to slide ${index}`"
             />
@@ -199,11 +201,11 @@ onUnmounted(() => {
 })
 
 const navigateToMen = () => {
-  router.push('/collection/mens')
+  router.push('/collection/men')
 }
 
 const navigateToWomen = () => {
-  router.push('/collection/womens')
+  router.push('/collection/women')
 }
 </script>
 
