@@ -1,36 +1,38 @@
 <template>
-  <form @submit.prevent="handleRegister">
-    <h1>Create Account</h1>
-    <div>
-      <label for="name">Full Name:</label>
-      <input v-model="name" type="text" id="name" placeholder="Full Name" required />
-    </div>
-    <div>
-      <label for="username">Username:</label>
-      <input v-model="username" type="text" id="username" placeholder="Username" required />
-    </div>
-    <div>
-      <label for="email">Email:</label>
-      <input v-model="email" type="email" id="email" placeholder="Email" required />
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input v-model="password" type="password" id="password" placeholder="Password" required />
-    </div>
-    <div>
-      <label for="confirmPassword">Confirm Password:</label>
-      <input
-        v-model="confirmPassword"
-        type="password"
-        id="confirmPassword"
-        placeholder="Confirm Password"
-        required
-      />
-    </div>
-    <button type="submit">Register</button>
-    <p v-if="message" :class="isSuccess ? 'success' : 'error'">{{ message }}</p>
-    <p><router-link to="/login">Already have an account? Login here</router-link></p>
-  </form>
+  <div class="auth-container">
+    <form @submit.prevent="handleRegister">
+      <h1>Create Account</h1>
+      <div>
+        <label for="name">Full Name:</label>
+        <input v-model="name" type="text" id="name" placeholder="Full Name" required />
+      </div>
+      <div>
+        <label for="username">Username:</label>
+        <input v-model="username" type="text" id="username" placeholder="Username" required />
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input v-model="email" type="email" id="email" placeholder="Email" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input v-model="password" type="password" id="password" placeholder="Password" required />
+      </div>
+      <div>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input
+          v-model="confirmPassword"
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm Password"
+          required
+        />
+      </div>
+      <button type="submit">Register</button>
+      <p v-if="message" :class="isSuccess ? 'success' : 'error'">{{ message }}</p>
+      <p><router-link to="/login">Already have an account? Login here</router-link></p>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -68,8 +70,7 @@ const handleRegister = async () => {
       message.value = response?.message || 'Registration failed'
       isSuccess.value = false
     }
-  }  catch (error) {
-
+  } catch (error) {
     message.value = error instanceof Error ? error.message : 'Login failed. Please try again.'
     isSuccess.value = false
     console.error('Login failed:', error)
@@ -79,6 +80,14 @@ const handleRegister = async () => {
 
 <style scoped lang="scss">
 @use '../assets/auth.scss';
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
 
 form {
   max-width: 450px;
