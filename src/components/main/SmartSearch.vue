@@ -38,7 +38,12 @@
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <button
             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
@@ -46,7 +51,12 @@
             aria-label="Close search"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -54,7 +64,10 @@
         <!-- Suggestions panel -->
         <div class="mt-3 bg-white border rounded-md shadow-sm overflow-hidden" role="listbox">
           <!-- Show categories when not searching -->
-          <div v-if="trimmedQuery.length === 0" class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-if="trimmedQuery.length === 0"
+            class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             <div v-for="section in sections" :key="section.title">
               <div class="text-[10px] tracking-widest text-gray-500 mb-2">{{ section.title }}</div>
               <ul class="space-y-2">
@@ -101,7 +114,11 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 const props = defineProps<{ open: boolean }>()
-const emit = defineEmits<{ (e: 'close'): void; (e: 'search', q: string): void; (e: 'navigate', to: string): void }>()
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'search', q: string): void
+  (e: 'navigate', to: string): void
+}>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
 const query = ref('')
@@ -110,24 +127,24 @@ const sections = [
   {
     title: 'NEW ARRIVALS',
     items: [
-      { label: 'Men', to: '/collection/mens' },
-      { label: 'Women', to: '/collection/womens' },
+      { label: 'Men', to: '/collection/men' },
+      { label: 'Women', to: '/collection/women' },
       { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
   {
     title: 'MEN',
     items: [
-      { label: 'Tops', to: '/collection/mens/tops' },
-      { label: 'Bottoms', to: '/collection/mens/bottoms' },
+      { label: 'Tops', to: '/collection/men/tops' },
+      { label: 'Bottoms', to: '/collection/men/bottoms' },
       { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
   {
     title: 'WOMEN',
     items: [
-      { label: 'Tops', to: '/collection/womens/tops' },
-      { label: 'Bottoms', to: '/collection/womens/bottoms' },
+      { label: 'Tops', to: '/collection/women/tops' },
+      { label: 'Bottoms', to: '/collection/women/bottoms' },
       { label: 'Accessories', to: '/collection/accessories' },
     ],
   },
@@ -135,8 +152,8 @@ const sections = [
     title: 'SALE',
     items: [
       { label: 'All Sale', to: '/sale' },
-      { label: "Men's Sale", to: '/collection/mens' },
-      { label: "Women's Sale", to: '/collection/womens' },
+      { label: "Men's Sale", to: '/collection/men' },
+      { label: "Women's Sale", to: '/collection/women' },
     ],
   },
 ]
@@ -151,7 +168,7 @@ const quickLinks = [
 
 const trimmedQuery = computed(() => query.value.trim())
 const filteredQuickLinks = computed(() =>
-  quickLinks.filter((x) => x.label.toLowerCase().includes(trimmedQuery.value.toLowerCase()))
+  quickLinks.filter((x) => x.label.toLowerCase().includes(trimmedQuery.value.toLowerCase())),
 )
 
 function submit() {
@@ -177,7 +194,7 @@ watch(
     } else {
       document.removeEventListener('keydown', onKeyDown)
     }
-  }
+  },
 )
 
 onMounted(() => {

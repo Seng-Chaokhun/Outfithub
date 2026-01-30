@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { authRoutes } from '@/feature/auth/routes'
 import { profileRoutes } from '@/feature/profile/routes'
+import { useAuthStore } from '@/feature/auth/store'
 
 // Admin pages
 const DashboardPage = () => import('@/pages/admin/DashboardPage.vue')
@@ -10,19 +11,14 @@ const ProductManagement = () => import('@/pages/admin/ProductManagement.vue')
 const StockManagement = () => import('@/pages/admin/StockManagement.vue')
 const UserTablePage = () => import('@/pages/admin/UserTablePage.vue')
 
-// Auth pages
-// const LoginPage = () => import('@/pages/auth/LoginPage.vue')
-// const RegisterPage = () => import('@/pages/auth/RegisterPage.vue')
-// const ForgotPasswordPage = () => import('@/pages/auth/ForgotPasswordPage.vue')
-
 // User pages
-const MensCollection = () => import('@/pages/user/MensCollection.vue')
-const WomensCollection = () => import('@/pages/user/WomensCollection.vue')
+const menCollection = () => import('@/pages/user/MenCollection.vue')
+const WomenCollection = () => import('@/pages/user/WomenCollection.vue')
 const AccessoriesCollection = () => import('@/pages/user/AccessoriesCollection.vue')
-const MensTops = () => import('@/pages/user/MensTops.vue')
-const MensBottoms = () => import('@/pages/user/MensBottoms.vue')
-const WomensTops = () => import('@/pages/user/WomensTops.vue')
-const WomensBottoms = () => import('@/pages/user/WomensBottoms.vue')
+const menTops = () => import('@/pages/user/MenTops.vue')
+const menBottoms = () => import('@/pages/user/MenBottoms.vue')
+const WomenTops = () => import('@/pages/user/WomenTops.vue')
+const WomenBottoms = () => import('@/pages/user/WomenBottoms.vue')
 const AllSale = () => import('@/pages/user/AllSale.vue')
 const ProductDetailPage = () => import('@/pages/user/ProductDetailPage.vue')
 const SearchPage = () => import('@/pages/user/SearchPage.vue')
@@ -44,15 +40,15 @@ const routes = [
 
   // User routes
   {
-    path: '/collection/mens',
+    path: '/collection/men',
     name: "Men's Collection",
-    component: MensCollection,
+    component: menCollection,
     meta: { nav: true },
   },
   {
-    path: '/collection/womens',
+    path: '/collection/women',
     name: "Women's Collection",
-    component: WomensCollection,
+    component: WomenCollection,
     meta: { nav: true },
   },
   {
@@ -62,24 +58,24 @@ const routes = [
     meta: { nav: true },
   },
   {
-    path: '/collection/mens/tops',
+    path: '/collection/men/tops',
     name: "Men's Tops",
-    component: MensTops,
+    component: menTops,
   },
   {
-    path: '/collection/mens/bottoms',
+    path: '/collection/men/bottoms',
     name: "Men's Bottoms",
-    component: MensBottoms,
+    component: menBottoms,
   },
   {
-    path: '/collection/womens/tops',
+    path: '/collection/women/tops',
     name: "Women's Tops",
-    component: WomensTops,
+    component: WomenTops,
   },
   {
-    path: '/collection/womens/bottoms',
+    path: '/collection/women/bottoms',
     name: "Women's Bottoms",
-    component: WomensBottoms,
+    component: WomenBottoms,
   },
   {
     path: '/sale',
@@ -101,33 +97,10 @@ const routes = [
     path: '/checkout',
     name: 'Checkout',
     component: CheckoutPage,
+    meta: { requiresAuth: true },
   },
-  // Auth routes
-  // {
-  //   path: '/auth/login',
-  //   name: 'Login',
-  //   component: LoginPage,
-  //   meta: { nav: true },
-  // },
-  // {
-  //   path: '/auth/register',
-  //   name: 'Register',
-  //   component: RegisterPage,
-  //   meta: { nav: true },
-  // },
-  // {
-  //   path: '/auth/forgot-password',
-  //   name: 'ForgotPassword',
-  //   component: ForgotPasswordPage,
-  // },
 
   // Admin routes
-  {
-    path: '/admin',
-    name: 'AdminPanel',
-    component: DashboardPage,
-    meta: { nav: true },
-  },
   {
     path: '/admin/dashboard',
     name: 'Dashboard',
@@ -175,6 +148,27 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+// authentication guard
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login')
+  } else if (to.name === 'Account') {
+    // Profile route protection
+    if (!authStore.isAuthenticated) {
+      next('/')
+    } else if (to.params.id !== authStore.session?.userId) {
+      // Redirect to own profile if trying to view someone else's
+      next({ name: 'Account', params: { id: authStore.session?.userId } })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 // title feature

@@ -8,6 +8,7 @@ import type {
   Session,
 } from '../../../shared/interfaces'
 import * as service from './services'
+import { useProfileStore } from '../profile/store'
 
 export const useAuthStore = defineStore('auth', () => {
   // states
@@ -44,6 +45,8 @@ export const useAuthStore = defineStore('auth', () => {
   async function logoutUser(): Promise<void> {
     service.logout()
     clearSession()
+    const profileStore = useProfileStore()
+    profileStore.clearProfile()
   }
 
   async function changeUserPassword(form: ChangePasswordForm): Promise<ApiResponse | null> {
