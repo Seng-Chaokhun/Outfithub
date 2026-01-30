@@ -1,8 +1,13 @@
-import axios, { type AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios'
+import {
+  axiosInstance,
+  saveSessionToStorage,
+  clearSessionFromStorage,
+  loadSessionFromStorage,
+} from '@/api/axiosInstance'
 import * as I from '../../../shared/interfaces'
 
-const API_URL = '/api/auth'
-const SESSION_KEY = 'session'
+const API_URL = '/auth'
 
 // remote calls / api requests (RPC model)
 export async function register(form: I.RegisterForm): Promise<I.ApiResponse> {
@@ -11,7 +16,7 @@ export async function register(form: I.RegisterForm): Promise<I.ApiResponse> {
 
 export async function login(form: I.LoginForm): Promise<I.ApiResponse<I.Session | null>> {
   const response = await deliver<I.LoginForm, I.Session | null>(form)
-  if (response.success) save(SESSION_KEY, response.payload)
+  if (response.success && response.payload) saveSessionToStorage(response.payload)
   return response
 }
 
@@ -20,21 +25,17 @@ export async function refreshToken(session: I.Session): Promise<I.ApiResponse<I.
 }
 
 export async function changePassword(form: I.ChangePasswordForm): Promise<I.ApiResponse> {
-  const session = loadSession()
-  return deliver<I.ChangePasswordForm & { userId: string }>({
-    ...form,
-    userId: session?.userId || '',
-  })
+  return deliver<I.ChangePasswordForm>(form)
 }
 
 // local calls (LPC model)
 export function logout(): void {
-  localStorage.removeItem(SESSION_KEY)
+  clearSessionFromStorage()
 }
 
 // hybrid calls (LPC + occasional RPC)
 export async function loadSessionAndValidate(): Promise<I.Session | null> {
-  const session = loadSession()
+  const session = loadSessionFromStorage()
 
   // edge case: loaded no session
   if (!session) return null
@@ -48,9 +49,10 @@ export async function loadSessionAndValidate(): Promise<I.Session | null> {
 async function deliver<TPayload, TPromise = null>(
   data: TPayload,
 ): Promise<I.ApiResponse<TPromise>> {
-  const response: AxiosResponse<I.ApiResponse<TPromise>, I.ApiRequest<TPayload>> = await axios.post<
-    I.ApiResponse<TPromise>
-  >(API_URL, {
+  const response: AxiosResponse<
+    I.ApiResponse<TPromise>,
+    I.ApiRequest<TPayload>
+  > = await axiosInstance.post<I.ApiResponse<TPromise>>(API_URL, {
     action: deliver.name,
     data,
   })
@@ -58,20 +60,6 @@ async function deliver<TPayload, TPromise = null>(
   return response.data
 }
 
-function save<T = null>(name: string, data: T): void {
-  localStorage.setItem(name, JSON.stringify(data))
-}
-
 function isExpired(session: I.Session): boolean {
   return Date.now() > new Date(session.expiresAt ?? 0).getTime()
-}
-
-/**
- * DON'T USE THIS. this is only a precursor for loadSessionAndValidate()
- * just to keep loading and validation separate.
- * use loadSessionAndValidate() instead.
- */
-function loadSession(): I.Session | null {
-  const session: I.Session | null = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null')
-  return session
 }
