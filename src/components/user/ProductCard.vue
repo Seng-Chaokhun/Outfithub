@@ -33,15 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-
-interface Product {
-  id: number
-  name: string
-  price: number
-  imageUrl: string
-  soldOut?: boolean
-  color?: 'light-blue' | 'black' | 'charcoal'
-}
+import type { Product } from '@/stores/productsStore'
 
 const props = defineProps<{ product: Product }>()
 const router = useRouter()
