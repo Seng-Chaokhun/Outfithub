@@ -7,22 +7,22 @@
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li :class="{active: active === 'dashboard'}" @click="goTo('/admin')">
+          <li :class="{ active: active === 'dashboard' }" @click="goTo('/admin/dashboard')">
             <i class="icon-dashboard"></i> DASHBOARD
           </li>
-          <li :class="{active: active === 'profile'}" @click="goTo('/admin/users')">
+          <li :class="{ active: active === 'profile' }" @click="goTo('/admin/users')">
             <i class="icon-user"></i> MANAGE USERS
           </li>
-          <li :class="{active: active === 'table'}" @click="setActive('table')">
+          <li :class="{ active: active === 'table' }" @click="setActive('table')">
             <i class="icon-table"></i> TABLE LIST
           </li>
-          <li :class="{active: active === 'sale'}" @click="setActive('sale')">
+          <li :class="{ active: active === 'sale' }" @click="setActive('sale')">
             <i class="icon-sale"></i> PRODUCT SALE
           </li>
-          <li :class="{active: active === 'stock'}" @click="setActive('stock')">
+          <li :class="{ active: active === 'stock' }" @click="setActive('stock')">
             <i class="icon-stock"></i> STOCK
           </li>
-          <li :class="{active: active === 'notifications'}" @click="setActive('notifications')">
+          <li :class="{ active: active === 'notifications' }" @click="setActive('notifications')">
             <i class="icon-bell"></i> NOTIFICATIONS
           </li>
         </ul>
@@ -83,7 +83,13 @@ const users = ref([
   { id: 2, name: 'Minea', email: 'Minea@gmail.com', country: 'Curaçao', city: 'Sinaai-Waas' },
   { id: 3, name: 'Kanha', email: 'Kanha@gmail.com', country: 'Netherlands', city: 'Baileux' },
   { id: 4, name: 'Tola', email: 'Tola@gmail.com', country: 'Korea, South', city: 'Overland Park' },
-  { id: 5, name: 'Vechka', email: 'Vechka@gmail.com', country: 'Malawi', city: 'Feldkirchen in Kärnten' },
+  {
+    id: 5,
+    name: 'Vechka',
+    email: 'Vechka@gmail.com',
+    country: 'Malawi',
+    city: 'Feldkirchen in Kärnten',
+  },
   { id: 6, name: 'Mesa', email: 'Mesa@gmail.com', country: 'Chile', city: 'Gloucester' },
 ])
 </script>
@@ -132,7 +138,8 @@ const users = ref([
   font-size: 1rem;
   transition: background 0.2s;
 }
-.sidebar-nav li.active, .sidebar-nav li:hover {
+.sidebar-nav li.active,
+.sidebar-nav li:hover {
   background: #353a40;
 }
 .sidebar-nav i {
@@ -161,7 +168,7 @@ const users = ref([
 .table-section {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 2rem;
 }
 .table-header {
@@ -181,7 +188,8 @@ const users = ref([
   border-collapse: collapse;
   margin-top: 1rem;
 }
-.user-table th, .user-table td {
+.user-table th,
+.user-table td {
   padding: 0.75rem 1rem;
   text-align: left;
 }
