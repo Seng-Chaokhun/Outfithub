@@ -15,7 +15,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-8">
           <!-- Filters Sidebar -->
-          <aside class="w-full lg:w-64 flex-shrink-0">
+          <aside class="w-full lg:w-64 shrink-0">
             <CategoryFilter />
           </aside>
 
@@ -57,7 +57,10 @@ const productsStore = useProductsStore()
 
 const filteredProducts = computed(() => {
   return productsStore.allProducts.filter(
-    (product) => product.name.toLowerCase().includes('accessory') || product.name.toLowerCase().includes('belt') || product.name.toLowerCase().includes('bag')
+    (product) =>
+      product.name.toLowerCase().includes('accessory') ||
+      product.name.toLowerCase().includes('belt') ||
+      product.name.toLowerCase().includes('bag'),
   )
 })
 </script>
