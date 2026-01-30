@@ -62,6 +62,7 @@ import CategoryFilter from '@/components/user/CategoryFilter.vue'
 import MainHeader from '@/components/main/MainHeader.vue'
 import MainFooter from '@/components/main/MainFooter.vue'
 import { useProductsStore /* type Product */ } from '@/stores/productsStore'
+import type { Filters } from '@/interfaces/Filters'
 
 const productsStore = useProductsStore()
 const sortOpen = ref(false)
@@ -83,13 +84,6 @@ onUnmounted(() => {
 })
 
 const allProducts = computed(() => productsStore.womenProducts)
-
-type Filters = {
-  sizes: Record<string, boolean>
-  productTypes: Record<string, boolean>
-  priceMax: number
-  availability: 'all' | 'inStock' | 'outOfStock'
-}
 
 const activeFilters = ref<Filters>({
   sizes: {},
