@@ -79,6 +79,15 @@
           </div>
 
           <!-- Add to Cart Button -->
+          <div
+            v-if="showAuthBanner"
+            class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md"
+          >
+            <p class="text-sm text-yellow-800">
+              You haven't logged in yet. Please login to add items to cart. Redirecting...
+            </p>
+          </div>
+
           <button
             @click="handleAddToCart"
             :disabled="!selectedSize"
@@ -187,6 +196,7 @@ const selectedSize = ref('')
 const quantity = ref(1)
 const detailsOpen = ref(false)
 const shippingOpen = ref(false)
+const showAuthBanner = ref(false)
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL']
 
@@ -276,7 +286,11 @@ const decreaseQuantity = () => {
 
 const handleAddToCart = () => {
   if (!authStore.isAuthenticated) {
-    router.push('/login')
+    console.log('User not authenticated - showing banner and redirecting to login')
+    showAuthBanner.value = true
+    setTimeout(() => {
+      router.push('/login')
+    }, 2000) // Redirect after 2 seconds
     return
   }
 
