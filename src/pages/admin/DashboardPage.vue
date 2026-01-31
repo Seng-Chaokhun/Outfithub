@@ -2,27 +2,24 @@
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <img src="/logo.png" alt="Outfithub Logo" class="logo" />
+       
         <span class="brand">OUTFITHUB</span>
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li :class="{active: active === 'dashboard'}" @click="setActive('dashboard')">
+          <li :class="{active: active === 'dashboard'}" @click="goTo('dashboard')">
             <i class="icon-dashboard"></i> DASHBOARD
           </li>
           <li :class="{active: active === 'profile'}" @click="goTo('/admin/users')">
             <i class="icon-user"></i> MANAGE USERS
           </li>
-          <li :class="{active: active === 'table'}" @click="setActive('table')">
-            <i class="icon-table"></i> TABLE LIST
+          <li :class="{active: active === 'table'}" @click="goTo('/admin/table')">
+            <i class="icon-table"></i> ADMIN PROFILE
           </li>
-          <li :class="{active: active === 'sale'}" @click="setActive('sale')">
+          <li :class="{active: active === 'sale'}" @click="goTo('/admin/sale')">
             <i class="icon-sale"></i> PRODUCT SALE
           </li>
-          <li :class="{active: active === 'stock'}" @click="setActive('stock')">
-            <i class="icon-stock"></i> STOCK
-          </li>
-          <li :class="{active: active === 'notifications'}" @click="setActive('notifications')">
+          <li :class="{active: active === 'notifications'}" @click="goTo('/admin/notifications')">
             <i class="icon-bell"></i> NOTIFICATIONS
           </li>
         </ul>
@@ -59,16 +56,7 @@
           <div class="card-footer">Update now</div>
         </div>
       </section>
-      <section class="dashboard-content">
-        <div class="dashboard-chart">
-          <div class="chart-title">Users Behavior</div>
-          <img src="/chart-placeholder.png" alt="Users Behavior Chart" class="chart-img" />
-        </div>
-        <div class="dashboard-pie">
-          <div class="pie-title">Cash flow data</div>
-          <img src="/pie-placeholder.png" alt="Cash Flow Pie Chart" class="pie-img" />
-        </div>
-      </section>
+     
     </main>
   </div>
 </template>

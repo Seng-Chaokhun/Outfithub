@@ -1,3 +1,7 @@
+export async function getAllUsers() {
+  const [rows] = await pool.query('SELECT id, username, email, full_name, avatar_url, role, created_at, password_hash FROM users');
+  return rows;
+}
 import { pool } from './db.js'
 
 export async function findByUsername(username: string) {

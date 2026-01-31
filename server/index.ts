@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import type { RowDataPacket } from 'mysql2'
 import AuthRouter from './auth.route.js'
 import ProfileRouter from './profile.route.js'
+import UserRouter from './user.route.js'
 import { pool, ensureSchema } from './db.js'
 
 // setup! initialize app
@@ -32,6 +33,7 @@ const authRouter: Router = AuthRouter
 const profileRouter: Router = ProfileRouter
 app.use('/api/auth', authRouter)
 app.use('/api/profile', profileRouter)
+app.use('/api', UserRouter)
 
 // listen! listen on API port
 app.listen(API_PORT, () => console.log(`API Listening on port: ${API_PORT}`))

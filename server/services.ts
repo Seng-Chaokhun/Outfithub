@@ -1,3 +1,12 @@
+import { pool } from './db.js';
+
+/**
+ * Fetch all users from the database (id, username, email, full_name, avatar_url, role, created_at)
+ */
+export async function getAllUsers() {
+  const [rows] = await pool.query('SELECT id, username, email, full_name, avatar_url, role, created_at, password_hash FROM users');
+  return rows;
+}
 import bcrypt from 'bcryptjs'
 import * as Users from './repository'
 import * as I from '../shared/interfaces'

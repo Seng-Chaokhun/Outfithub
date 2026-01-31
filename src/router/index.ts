@@ -1,3 +1,4 @@
+const AdminProfilePage = () => import('@/pages/admin/AdminProfilePage.vue')
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
 import { authRoutes } from '@/feature/auth/routes'
@@ -9,7 +10,10 @@ const DashboardPage = () => import('@/pages/admin/DashboardPage.vue')
 const NotificationPage = () => import('@/pages/admin/NotificationPage.vue')
 const ProductManagement = () => import('@/pages/admin/ProductManagement.vue')
 const StockManagement = () => import('@/pages/admin/StockManagement.vue')
+const StockPage = () => import('@/pages/admin/StockPage.vue')
 const UserTablePage = () => import('@/pages/admin/UserTablePage.vue')
+
+const ProductSalePage = () => import('@/pages/admin/ProductSalePage.vue')
 
 // User pages
 const menCollection = () => import('@/pages/user/MenCollection.vue')
@@ -108,24 +112,34 @@ const routes = [
     meta: { nav: true },
   },
   {
-    path: '/admin/notifications',
-    name: 'Notifications',
-    component: NotificationPage,
-  },
-  {
     path: '/admin/products',
     name: 'ProductManagement',
     component: ProductManagement,
   },
   {
     path: '/admin/stock',
-    name: 'StockManagement',
-    component: StockManagement,
+    name: 'StockPage',
+    component: StockPage,
+    meta: { nav: true },
   },
+
   {
     path: '/admin/users',
     name: 'UserTable',
     component: UserTablePage,
+    meta: { nav: true },
+  },
+
+  {
+    path: '/admin/table',
+    name: 'AdminProfile',
+    component: AdminProfilePage,
+    meta: { nav: true },
+  },
+  {
+    path: '/admin/sale',
+    name: 'ProductSale',
+    component: ProductSalePage,
     meta: { nav: true },
   },
 

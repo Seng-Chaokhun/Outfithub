@@ -10,12 +10,7 @@
             aria-label="Toggle menu"
           >
             <router-link to="/" class="flex items-center gap-2">
-              <img
-                src="@/assets/images/logo/ChatGPT_Image_Nov_9__2025__03_22_40_PM-removebg-preview.png
-              "
-                alt="Outfithub Logo"
-                class="h-10 w-10 object-contain"
-              />
+               
               <span class="text-black-500 font-bold text-2xl">Outfithub</span>
             </router-link>
           </button>
